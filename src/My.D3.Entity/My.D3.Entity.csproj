@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="01Demo\02Dto\" />
+    <Folder Include="01Demo\04Function\" />
+    <Folder Include="01Demo\05Proc\" />
+    <Folder Include="01Demo\06Trigger\" />
+    <Folder Include="Framework\04Function\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Sealee.SqlHelper">
+      <HintPath>..\..\_commonfile\Sealee.SqlHelper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="01Demo\01Entity\_Demo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_Demo.cs</LastGenOutput>
+      <LastOutputs>
+.\_Demo.cs
+.\DemoClass.cs
+.\DemoCourse.cs
+.\DemoSchool.cs
+.\DemoStudent.cs
+.\DemoStudent2Course.cs
+</LastOutputs>
+    </None>
+    <None Update="01Demo\03View\_Demo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_Demo.cs</LastGenOutput>
+      <LastOutputs>
+.\_Demo.cs
+.\ViewDemoClass.cs
+.\ViewDemoCourse.cs
+.\ViewDemoSchool.cs
+.\ViewDemoStudent.cs
+.\ViewDemoStudent2Course.cs
+</LastOutputs>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="01Demo\01Entity\_Demo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_Demo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="01Demo\03View\_Demo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_Demo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

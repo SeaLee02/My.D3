@@ -1,0 +1,6 @@
+﻿{
+  "ConnectionString": "server=.;uid=sa;pwd=123;database=MyCoreDB",
+  "IsOverrideFile": false,
+  "NameSpace": "MyCore.Entity.Demo",
+  "TableName": "DM_"
+}

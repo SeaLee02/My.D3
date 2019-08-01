@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="01AppServices\" />
+    <Folder Include="02DomainServices\" />
+    <Folder Include="03Repositories\" />
+    <Folder Include="04PublicService\" />
+    <Folder Include="05WorkerAndJob\" />
+    <Folder Include="Framework\" />
+  </ItemGroup>
+
+</Project>
