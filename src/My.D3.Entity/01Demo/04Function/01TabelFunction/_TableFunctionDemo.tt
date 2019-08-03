@@ -24,7 +24,7 @@
         string fileName = string.Format(@"{0}\{1}.cs", destPath, StringUtil.ToCase(item.ObjName));
         TableFunction template = new TableFunction(item,myConfig);
         template.Output.Encoding = Encoding.UTF8;
-        template.Output.PreserveExistingFile =false;
+        template.Output.PreserveExistingFile =!myConfig.IsOverrideFile;
         template.RenderToFile(fileName);
     }
 

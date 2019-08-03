@@ -5,7 +5,6 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using My.D3.Entity.Framework.View;
-    using My.D3.Entity.Demo;
 
     /// <summary>
     /// 学生表视图

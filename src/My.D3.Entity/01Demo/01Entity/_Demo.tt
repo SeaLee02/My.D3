@@ -25,7 +25,7 @@
 		{
 			string fileName = string.Format(@"{0}\{1}.cs", destPath,  StringUtil.ToCase(tableInfo.TableName)+"Entity");
 			EntityTemplate template = new EntityTemplate(tableInfo,myConfig);
-			template.Output.PreserveExistingFile =false;
+			template.Output.PreserveExistingFile =!myConfig.IsOverrideFile;
 			template.Output.Encoding = Encoding.UTF8;							
 			template.RenderToFile(fileName);
 		}
