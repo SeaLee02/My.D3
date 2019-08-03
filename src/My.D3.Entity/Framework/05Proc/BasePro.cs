@@ -1,5 +1,6 @@
-﻿namespace My.D3.Framework.Pro
+﻿namespace My.D3.Entity.Framework.Pro
 {
+    using My.D3.Framework;
     using Sealee.SqlHelper;
     using System.Collections.Generic;
     using System.Data;

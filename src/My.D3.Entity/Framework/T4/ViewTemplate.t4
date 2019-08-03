@@ -32,14 +32,14 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.Entity;
-    using MyD3.Entity.Demo;
+    using My.D3.Entity.Framework.View;
+    using My.D3.Entity.Demo;
 
     /// <summary>
     /// <#=_model.ViewDesc #>
     /// </summary>
     [Table("<#= _model.ViewName #>")]
-    public class <#=StringUtil.ToCase(_model.ViewName) #> : BaseEntity<Guid>
+    public partial class <#=StringUtil.ToCase(_model.ViewName) #> : BaseView<Guid>
     {<#+foreach(DbColumn column in _model.DbColumns){#><#+if(column.CShareType=="Guid"&&!column.IsNullable){ #>
 		/// <summary>
         /// <#=column.ColumnDesc #>

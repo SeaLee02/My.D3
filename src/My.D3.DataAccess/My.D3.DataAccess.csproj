@@ -5,8 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DbSet\" />
-    <Folder Include="Framework\" />
+    <ProjectReference Include="..\My.D3.Entity\My.D3.Entity.csproj" />
+    <ProjectReference Include="..\My.D3.Util\My.D3.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DbSet\DBDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DBDemo.cs</LastGenOutput>
+    </None>
+    <None Update="DbSet\View\DBViewDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DBViewDemo.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DbSet\DBDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DBDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DbSet\View\DBViewDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DBViewDemo.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

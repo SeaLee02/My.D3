@@ -1,13 +1,13 @@
 ﻿<#+
-// <copyright file="Template1.tt" company="">
+// <copyright file="Mapper.tt" company="">
 //  Copyright © . All Rights Reserved.
 // </copyright>
 
-public class EntityTemplate : CSharpTemplate
+public class DtoTemplate : CSharpTemplate
 {
      private DbTable _model;
      private MyConfig _config;
-     public EntityTemplate(DbTable model,MyConfig config)
+     public DtoTemplate(DbTable model,MyConfig config)
      {
          _model=model;
          _config=config;
@@ -32,8 +32,6 @@ public class EntityTemplate : CSharpTemplate
              return "";
          }
       }
-      
-
 	public override string TransformText()
 	{
 #>
@@ -43,13 +41,13 @@ namespace <#=_config.NameSpace #>
     using System.ComponentModel;   
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.Entity;
+    using My.D3.Entity.Framework.Dto;
 
     /// <summary>
     /// <#=_model.TableDesc #>
     /// </summary>
     [Table("<#= _model.TableName #>")]
-    public partial class <#=StringUtil.ToCase(_model.TableName) #>Entity : BaseEntity<<#=_model.CShareType #>>
+    public partial class <#=StringUtil.ToCase(_model.TableName) #>Dto : BaseEntityDto<<#=_model.CShareType #>>
     {
 
         /// <summary>
@@ -57,7 +55,6 @@ namespace <#=_config.NameSpace #>
         /// </summary>
         [Column("<#=_model.TablePrimarkeyName #>")]
         [Display(Name = "<#=_model.TableDesc #>主键", Description = "<#=_model.TableDesc #>主键")]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override <#=_model.CShareType #> Id { get; set; }
 
 <#+foreach(DbColumn column in _model.DbColumns.Where(x=>x.ColumnName!=_model.TablePrimarkeyName)){#>
@@ -75,11 +72,6 @@ namespace <#=_config.NameSpace #>
 
 <#+} #>
     }
-
-<#+ foreach(string enumStr in _model.ListEnumStr){#>
-
-<#= enumStr #>
-<#+} #>
 }
 <#+
         return this.GenerationEnvironment.ToString();

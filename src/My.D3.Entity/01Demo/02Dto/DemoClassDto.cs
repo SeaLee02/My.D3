@@ -1,48 +1,39 @@
-﻿namespace MyD3.Entity.Demo
+﻿namespace My.D3.Entity.Demo.Dto
 {
     using System;
     using System.ComponentModel;   
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.Entity;
+    using My.D3.Entity.Framework.Dto;
 
     /// <summary>
-    /// 学院表
+    /// 班级表
     /// </summary>
-    [Table("Demo_School")]
-    public class DemoSchool : BaseEntity<Guid>
+    [Table("Demo_Class")]
+    public partial class DemoClassDto : BaseEntityDto<Guid>
     {
 
         /// <summary>
         /// 主键
         /// </summary>
-        [Column("SchoolGUID")]
-        [Display(Name = "学院表主键", Description = "学院表主键")]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("ClassGUID")]
+        [Display(Name = "班级表主键", Description = "班级表主键")]
         public override Guid Id { get; set; }
 
         /// <summary>
-        /// 编码
+        /// 班级名称
         /// </summary>
-        [Display(Description = "编码", Name = "编码")]
-		[Column("SchoolCode")]
-        [StringLength(512)]
-        public string  SchoolCode { get; set; }
+        [Display(Description = "班级名称", Name = "班级名称")]
+		[Column("ClassName")]
+        [StringLength(256)]
+        public string  ClassName { get; set; }
 
         /// <summary>
-        /// 学校名称
+        /// 学院GUID
         /// </summary>
-        [Display(Description = "学校名称", Name = "学校名称")]
-		[Column("SchoolName")]
-        [StringLength(512)]
-        public string  SchoolName { get; set; }
-
-        /// <summary>
-        /// 父级GUID
-        /// </summary>
-        [Display(Description = "父级GUID", Name = "父级GUID")]
-		[Column("ParentSchoolGUID")]
-        public Guid?  ParentSchoolGUID { get; set; }
+        [Display(Description = "学院GUID", Name = "学院GUID")]
+		[Column("SchoolGUID")]
+        public Guid?  SchoolGUID { get; set; }
 
         /// <summary>
         /// 是否删除
@@ -96,5 +87,4 @@
         public string  ModifiedName { get; set; }
 
     }
-
 }

@@ -1,4 +1,4 @@
-﻿namespace MyD3.Entity.Demo
+﻿namespace My.D3.Entity.Demo
 {
     using System;
     using System.ComponentModel;   
@@ -7,40 +7,42 @@
     using My.D3.Entity.Framework.Entity;
 
     /// <summary>
-    /// 学生课程表
+    /// 学院表
     /// </summary>
-    [Table("Demo_Student2Course")]
-    public class DemoStudent2Course : BaseEntity<Guid>
+    [Table("Demo_School")]
+    public partial class DemoSchoolEntity : BaseEntity<Guid>
     {
 
         /// <summary>
         /// 主键
         /// </summary>
-        [Column("CourseGUID")]
-        [Display(Name = "学生课程表主键", Description = "学生课程表主键")]
+        [Column("SchoolGUID")]
+        [Display(Name = "学院表主键", Description = "学院表主键")]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override Guid Id { get; set; }
 
         /// <summary>
-        /// 分数
+        /// 编码
         /// </summary>
-        [Display(Description = "分数", Name = "分数")]
-		[Column("Score")]
-        public decimal?  Score { get; set; }
+        [Display(Description = "编码", Name = "编码")]
+		[Column("SchoolCode")]
+        [StringLength(512)]
+        public string  SchoolCode { get; set; }
 
         /// <summary>
-        /// 学生课程GUID
+        /// 学校名称
         /// </summary>
-        [Display(Description = "学生课程GUID", Name = "学生课程GUID")]
-		[Column("Student2CourseGUID")]
-        public Guid?  Student2CourseGUID { get; set; }
+        [Display(Description = "学校名称", Name = "学校名称")]
+		[Column("SchoolName")]
+        [StringLength(512)]
+        public string  SchoolName { get; set; }
 
         /// <summary>
-        /// 学生GUID
+        /// 父级GUID
         /// </summary>
-        [Display(Description = "学生GUID", Name = "学生GUID")]
-		[Column("StudentGUID")]
-        public Guid?  StudentGUID { get; set; }
+        [Display(Description = "父级GUID", Name = "父级GUID")]
+		[Column("ParentSchoolGUID")]
+        public Guid?  ParentSchoolGUID { get; set; }
 
         /// <summary>
         /// 是否删除

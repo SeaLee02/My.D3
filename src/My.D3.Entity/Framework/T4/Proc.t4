@@ -22,8 +22,8 @@ namespace <#=_config.NameSpace #>
 {
     using System.Collections.Generic;
     using System.Data;
-    using System.Data.SqlClient;
-    using My.Entity.Framework.Pro;
+    using System.Data.SqlClient;            
+    using My.D3.Entity.Framework.Pro;
     
      /// <summary>
     /// <#=_obj.ObjDesc #>

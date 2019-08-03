@@ -1,126 +1,125 @@
-﻿namespace My.D3.Entity.Demo.View
+﻿namespace My.D3.Entity.Demo.Dto
 {
-    using System;   
-    using System.ComponentModel;
+    using System;
+    using System.ComponentModel;   
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.View;
-    using My.D3.Entity.Demo;
+    using My.D3.Entity.Framework.Dto;
 
     /// <summary>
-    /// 学生表视图
+    /// 学生表
     /// </summary>
-    [Table("view_DemoStudent")]
-    public partial class ViewDemoStudent : BaseView<Guid>
+    [Table("Demo_Student")]
+    public partial class DemoStudentDto : BaseEntityDto<Guid>
     {
-		/// <summary>
-        /// 学生主键
+
+        /// <summary>
+        /// 主键
         /// </summary>
-        [Display(Description = "学生主键", Name = "学生主键")]
         [Column("StudentGUID")]
+        [Display(Name = "学生表主键", Description = "学生表主键")]
         public override Guid Id { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 名称
         /// </summary>
         [Display(Description = "名称", Name = "名称")]
-        [Column("StuName")]
+		[Column("StuName")]
         [StringLength(128)]
         public string  StuName { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 年龄
         /// </summary>
         [Display(Description = "年龄", Name = "年龄")]
-        [Column("Age")]
+		[Column("Age")]
         public int?  Age { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 生日
         /// </summary>
         [Display(Description = "生日", Name = "生日")]
-        [Column("Birthday")]
+		[Column("Birthday")]
         public DateTime?  Birthday { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 身高
         /// </summary>
         [Display(Description = "身高", Name = "身高")]
-        [Column("Height")]
+		[Column("Height")]
         public decimal?  Height { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 是否VIP
         /// </summary>
         [Display(Description = "是否VIP", Name = "是否VIP")]
-        [Column("IsVIP")]
+		[Column("IsVIP")]
         public byte?  IsVIP { get; set; }
 
-		/// <summary>
-        /// 班级主键
+        /// <summary>
+        /// 班级GUID
         /// </summary>
-        [Display(Description = "班级主键", Name = "班级主键")]
-        [Column("ClassGUID")]
+        [Display(Description = "班级GUID", Name = "班级GUID")]
+		[Column("ClassGUID")]
         public Guid?  ClassGUID { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 是否删除
         /// </summary>
         [Display(Description = "是否删除", Name = "是否删除")]
-        [Column("IsDeleted")]
+		[Column("IsDeleted")]
         public byte  IsDeleted { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建时间
         /// </summary>
         [Display(Description = "创建时间", Name = "创建时间")]
-        [Column("CreateTime")]
+		[Column("CreateTime")]
         public DateTime?  CreateTime { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建人GUID
         /// </summary>
         [Display(Description = "创建人GUID", Name = "创建人GUID")]
-        [Column("CreateGUID")]
+		[Column("CreateGUID")]
         public Guid?  CreateGUID { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建人名称
         /// </summary>
         [Display(Description = "创建人名称", Name = "创建人名称")]
-        [Column("CreatedName")]
+		[Column("CreatedName")]
         [StringLength(128)]
         public string  CreatedName { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改时间
         /// </summary>
         [Display(Description = "修改时间", Name = "修改时间")]
-        [Column("ModifiedTime")]
+		[Column("ModifiedTime")]
         public DateTime?  ModifiedTime { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改人GUID
         /// </summary>
         [Display(Description = "修改人GUID", Name = "修改人GUID")]
-        [Column("ModifiedGUID")]
+		[Column("ModifiedGUID")]
         public Guid?  ModifiedGUID { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改人名称
         /// </summary>
         [Display(Description = "修改人名称", Name = "修改人名称")]
-        [Column("ModifiedName")]
+		[Column("ModifiedName")]
         [StringLength(128)]
         public string  ModifiedName { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 性别(1.男;2.女)
         /// </summary>
         [Display(Description = "性别(1.男;2.女)", Name = "性别(1.男;2.女)")]
-        [Column("SexType")]
+		[Column("SexType")]
         public SexTypeEnum?  SexType { get; set; }
 
     }
 }
-

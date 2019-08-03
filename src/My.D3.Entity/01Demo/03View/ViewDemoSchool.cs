@@ -1,17 +1,17 @@
-﻿namespace MyD3.Entity.Demo.View
+﻿namespace My.D3.Entity.Demo.View
 {
     using System;   
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.Entity;
-    using MyD3.Entity.Demo;
+    using My.D3.Entity.Framework.View;
+    using My.D3.Entity.Demo;
 
     /// <summary>
     /// 
     /// </summary>
     [Table("View_Demo_School")]
-    public class ViewDemoSchool : BaseEntity<Guid>
+    public partial class ViewDemoSchool : BaseView<Guid>
     {
 		/// <summary>
         /// 学院GUID

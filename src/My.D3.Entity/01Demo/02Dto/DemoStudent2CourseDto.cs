@@ -1,68 +1,45 @@
-﻿namespace MyD3.Entity.Demo
+﻿namespace My.D3.Entity.Demo.Dto
 {
     using System;
     using System.ComponentModel;   
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.Entity;
+    using My.D3.Entity.Framework.Dto;
 
     /// <summary>
-    /// 学生表
+    /// 学生课程表
     /// </summary>
-    [Table("Demo_Student")]
-    public class DemoStudent : BaseEntity<Guid>
+    [Table("Demo_Student2Course")]
+    public partial class DemoStudent2CourseDto : BaseEntityDto<Guid>
     {
 
         /// <summary>
         /// 主键
         /// </summary>
-        [Column("StudentGUID")]
-        [Display(Name = "学生表主键", Description = "学生表主键")]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("CourseGUID")]
+        [Display(Name = "学生课程表主键", Description = "学生课程表主键")]
         public override Guid Id { get; set; }
 
         /// <summary>
-        /// 名称
+        /// 分数
         /// </summary>
-        [Display(Description = "名称", Name = "名称")]
-		[Column("StuName")]
-        [StringLength(128)]
-        public string  StuName { get; set; }
+        [Display(Description = "分数", Name = "分数")]
+		[Column("Score")]
+        public decimal?  Score { get; set; }
 
         /// <summary>
-        /// 年龄
+        /// 学生课程GUID
         /// </summary>
-        [Display(Description = "年龄", Name = "年龄")]
-		[Column("Age")]
-        public int?  Age { get; set; }
+        [Display(Description = "学生课程GUID", Name = "学生课程GUID")]
+		[Column("Student2CourseGUID")]
+        public Guid?  Student2CourseGUID { get; set; }
 
         /// <summary>
-        /// 生日
+        /// 学生GUID
         /// </summary>
-        [Display(Description = "生日", Name = "生日")]
-		[Column("Birthday")]
-        public DateTime?  Birthday { get; set; }
-
-        /// <summary>
-        /// 身高
-        /// </summary>
-        [Display(Description = "身高", Name = "身高")]
-		[Column("Height")]
-        public decimal?  Height { get; set; }
-
-        /// <summary>
-        /// 是否VIP
-        /// </summary>
-        [Display(Description = "是否VIP", Name = "是否VIP")]
-		[Column("IsVIP")]
-        public byte?  IsVIP { get; set; }
-
-        /// <summary>
-        /// 班级GUID
-        /// </summary>
-        [Display(Description = "班级GUID", Name = "班级GUID")]
-		[Column("ClassGUID")]
-        public Guid?  ClassGUID { get; set; }
+        [Display(Description = "学生GUID", Name = "学生GUID")]
+		[Column("StudentGUID")]
+        public Guid?  StudentGUID { get; set; }
 
         /// <summary>
         /// 是否删除
@@ -115,31 +92,5 @@
         [StringLength(128)]
         public string  ModifiedName { get; set; }
 
-        /// <summary>
-        /// 性别(1.男;2.女)
-        /// </summary>
-        [Display(Description = "性别(1.男;2.女)", Name = "性别(1.男;2.女)")]
-		[Column("SexType")]
-        public SexTypeEnum?  SexType { get; set; }
-
     }
-
-
-    /// <summary>
-    /// 性别(1.男;2.女)
-    /// </summary>
-    public enum SexTypeEnum
-    {
-        /// <summary>
-        /// 男
-        /// </summary>
-        男 = 1,
-
-        /// <summary>
-        /// 女
-        /// </summary>
-        女 = 2
-
-    }
-
 }

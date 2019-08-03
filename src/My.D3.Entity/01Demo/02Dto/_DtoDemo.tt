@@ -7,7 +7,7 @@
 <#@ assembly name="$(SolutionDir)_commonfile\Sealee.T4Helper.dll" #>
 <#@ import namespace="Sealee.T4Helper" #>
 <#@ include file="T4Toolbox.tt" #>
-<#@ include file="$(ProjectDir)Framework/T4/EntityTemplate.t4" #>
+<#@ include file="$(ProjectDir)Framework/T4/DtoTemplate.t4" #>
 
 
 <# 
@@ -16,15 +16,15 @@
 		MyConfig myConfig=StringUtil.GetConfig (solutionsPath+"_commonfile\\T4Helper.json");
 		myConfig.IsOverrideFile=true;
 		myConfig.TableName="Demo_";
-		myConfig.NameSpace="My.D3.Entity.Demo";
+		myConfig.NameSpace="My.D3.Entity.Demo.Dto";
 		List<DbTable> tableInfos=DbUtil.GetDbTables(myConfig.ConnectionString,myConfig.TableName).Where(x=>x.HasPrimaryKey==true).ToList();
 		string curPath = Path.GetDirectoryName(Host.TemplateFile);
 		string destPath = Path.Combine(curPath, "");
 
 		foreach(DbTable tableInfo in tableInfos)
 		{
-			string fileName = string.Format(@"{0}\{1}.cs", destPath,  StringUtil.ToCase(tableInfo.TableName)+"Entity");
-			EntityTemplate template = new EntityTemplate(tableInfo,myConfig);
+			string fileName = string.Format(@"{0}\{1}.cs", destPath,  StringUtil.ToCase(tableInfo.TableName)+"Dto");
+			DtoTemplate template = new DtoTemplate(tableInfo,myConfig);
 			template.Output.PreserveExistingFile =false;
 			template.Output.Encoding = Encoding.UTF8;							
 			template.RenderToFile(fileName);

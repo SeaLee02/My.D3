@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="01Demo\02Dto\" />
-    <Folder Include="01Demo\04Function\" />
-    <Folder Include="01Demo\05Proc\" />
     <Folder Include="01Demo\06Trigger\" />
     <Folder Include="Framework\04Function\" />
   </ItemGroup>
@@ -28,24 +25,63 @@
       <LastGenOutput>_Demo.cs</LastGenOutput>
       <LastOutputs>
 .\_Demo.cs
-.\DemoClass.cs
-.\DemoCourse.cs
-.\DemoSchool.cs
-.\DemoStudent.cs
-.\DemoStudent2Course.cs
+.\DemoClassEntity.cs
+.\DemoCourseEntity.cs
+.\DemoSchoolEntity.cs
+.\DemoStudent2CourseEntity.cs
+.\DemoStudentEntity.cs
 </LastOutputs>
     </None>
-    <None Update="01Demo\03View\_Demo.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>_Demo.cs</LastGenOutput>
+    <None Update="01Demo\02Dto\_DtoDemo.tt">
       <LastOutputs>
-.\_Demo.cs
+.\_DtoDemo.cs
+.\DemoClassDto.cs
+.\DemoCourseDto.cs
+.\DemoSchoolDto.cs
+.\DemoStudent2CourseDto.cs
+.\DemoStudentDto.cs
+</LastOutputs>
+      <LastGenOutput>_DtoDemo.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="01Demo\03View\_ViewDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_ViewDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\_ViewDemo.cs
 .\ViewDemoClass.cs
 .\ViewDemoCourse.cs
 .\ViewDemoSchool.cs
 .\ViewDemoStudent.cs
 .\ViewDemoStudent2Course.cs
 </LastOutputs>
+    </None>
+    <None Update="01Demo\04Function\01TabelFunction\_TableFunctionDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_TableFunctionDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\_TableFunctionDemo.cs
+.\FnDemoGetDays.cs
+</LastOutputs>
+    </None>
+    <None Update="01Demo\04Function\02ScalarFunction\_ScalarFunctionDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_ScalarFunctionDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\_ScalarFunctionDemo.cs
+.\FnDemoStringFormat.cs
+</LastOutputs>
+    </None>
+    <None Update="01Demo\05Proc\_ProDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_ProDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\_ProDemo.cs
+.\UspDemoGetDemoStudent.cs
+</LastOutputs>
+    </None>
+    <None Update="Framework\T4\DtoTemplate.t4">
+      <Generator></Generator>
     </None>
   </ItemGroup>
 
@@ -59,10 +95,30 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>_Demo.tt</DependentUpon>
     </Compile>
-    <Compile Update="01Demo\03View\_Demo.cs">
+    <Compile Update="01Demo\02Dto\_DtoDemo.cs">
+      <DependentUpon>_DtoDemo.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>_Demo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="01Demo\03View\_ViewDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ViewDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="01Demo\04Function\01TabelFunction\_TableFunctionDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_TableFunctionDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="01Demo\04Function\02ScalarFunction\_ScalarFunctionDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ScalarFunctionDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="01Demo\05Proc\_ProDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ProDemo.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

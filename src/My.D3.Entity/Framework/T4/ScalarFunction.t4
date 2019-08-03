@@ -23,12 +23,12 @@ namespace <#=_config.NameSpace #>
     using System.Data;
     using System.Data.SqlClient;
     using Sealee.SqlHelper;
-	using My.Entity.Framework;
+	using My.D3.Framework;
 
 	/// <summary>
     /// <#=_obj.ObjDesc #>
     /// </summary>
-    public class <#=_obj.ObjName #> 
+    public class <#=StringUtil.ToCase(_obj.ObjName) #> 
     {
 <#+foreach(DbObjColumn column in _obj.DbObjColumns){#>
         /// <summary>

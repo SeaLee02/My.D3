@@ -1,97 +1,83 @@
-﻿namespace My.D3.Entity.Demo.View
+﻿namespace My.D3.Entity.Demo.Dto
 {
-    using System;   
-    using System.ComponentModel;
+    using System;
+    using System.ComponentModel;   
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using My.D3.Entity.Framework.View;
-    using My.D3.Entity.Demo;
+    using My.D3.Entity.Framework.Dto;
 
     /// <summary>
-    /// 
+    /// 课程表
     /// </summary>
-    [Table("View_Demo_Student2Course")]
-    public partial class ViewDemoStudent2Course : BaseView<Guid>
+    [Table("Demo_Course")]
+    public partial class DemoCourseDto : BaseEntityDto<Guid>
     {
-		/// <summary>
-        /// 学生课程GUID
+
+        /// <summary>
+        /// 主键
         /// </summary>
-        [Display(Description = "学生课程GUID", Name = "学生课程GUID")]
         [Column("CourseGUID")]
+        [Display(Name = "课程表主键", Description = "课程表主键")]
         public override Guid Id { get; set; }
 
-		/// <summary>
-        /// 分数
+        /// <summary>
+        /// 课程名称
         /// </summary>
-        [Display(Description = "分数", Name = "分数")]
-        [Column("Score")]
-        public decimal?  Score { get; set; }
+        [Display(Description = "课程名称", Name = "课程名称")]
+		[Column("CourseName")]
+        [StringLength(256)]
+        public string  CourseName { get; set; }
 
-		/// <summary>
-        /// 学生课程GUID
-        /// </summary>
-        [Display(Description = "学生课程GUID", Name = "学生课程GUID")]
-        [Column("Student2CourseGUID")]
-        public Guid?  Student2CourseGUID { get; set; }
-
-		/// <summary>
-        /// 学生GUID
-        /// </summary>
-        [Display(Description = "学生GUID", Name = "学生GUID")]
-        [Column("StudentGUID")]
-        public Guid?  StudentGUID { get; set; }
-
-		/// <summary>
+        /// <summary>
         /// 是否删除
         /// </summary>
         [Display(Description = "是否删除", Name = "是否删除")]
-        [Column("IsDeleted")]
+		[Column("IsDeleted")]
         public byte  IsDeleted { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建时间
         /// </summary>
         [Display(Description = "创建时间", Name = "创建时间")]
-        [Column("CreateTime")]
+		[Column("CreateTime")]
         public DateTime?  CreateTime { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建人GUID
         /// </summary>
         [Display(Description = "创建人GUID", Name = "创建人GUID")]
-        [Column("CreateGUID")]
+		[Column("CreateGUID")]
         public Guid?  CreateGUID { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 创建人名称
         /// </summary>
         [Display(Description = "创建人名称", Name = "创建人名称")]
-        [Column("CreatedName")]
+		[Column("CreatedName")]
         [StringLength(128)]
         public string  CreatedName { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改时间
         /// </summary>
         [Display(Description = "修改时间", Name = "修改时间")]
-        [Column("ModifiedTime")]
+		[Column("ModifiedTime")]
         public DateTime?  ModifiedTime { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改人GUID
         /// </summary>
         [Display(Description = "修改人GUID", Name = "修改人GUID")]
-        [Column("ModifiedGUID")]
+		[Column("ModifiedGUID")]
         public Guid?  ModifiedGUID { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 修改人名称
         /// </summary>
         [Display(Description = "修改人名称", Name = "修改人名称")]
-        [Column("ModifiedName")]
+		[Column("ModifiedName")]
         [StringLength(128)]
         public string  ModifiedName { get; set; }
 
     }
 }
-

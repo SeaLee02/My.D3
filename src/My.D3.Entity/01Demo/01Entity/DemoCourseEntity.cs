@@ -1,4 +1,4 @@
-﻿namespace MyD3.Entity.Demo
+﻿namespace My.D3.Entity.Demo
 {
     using System;
     using System.ComponentModel;   
@@ -7,34 +7,27 @@
     using My.D3.Entity.Framework.Entity;
 
     /// <summary>
-    /// 班级表
+    /// 课程表
     /// </summary>
-    [Table("Demo_Class")]
-    public class DemoClass : BaseEntity<Guid>
+    [Table("Demo_Course")]
+    public partial class DemoCourseEntity : BaseEntity<Guid>
     {
 
         /// <summary>
         /// 主键
         /// </summary>
-        [Column("ClassGUID")]
-        [Display(Name = "班级表主键", Description = "班级表主键")]
+        [Column("CourseGUID")]
+        [Display(Name = "课程表主键", Description = "课程表主键")]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override Guid Id { get; set; }
 
         /// <summary>
-        /// 班级名称
+        /// 课程名称
         /// </summary>
-        [Display(Description = "班级名称", Name = "班级名称")]
-		[Column("ClassName")]
+        [Display(Description = "课程名称", Name = "课程名称")]
+		[Column("CourseName")]
         [StringLength(256)]
-        public string  ClassName { get; set; }
-
-        /// <summary>
-        /// 学院GUID
-        /// </summary>
-        [Display(Description = "学院GUID", Name = "学院GUID")]
-		[Column("SchoolGUID")]
-        public Guid?  SchoolGUID { get; set; }
+        public string  CourseName { get; set; }
 
         /// <summary>
         /// 是否删除

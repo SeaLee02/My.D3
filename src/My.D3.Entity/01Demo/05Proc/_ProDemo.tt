@@ -7,27 +7,25 @@
 <#@ assembly name="$(SolutionDir)_commonfile\Sealee.T4Helper.dll" #>
 <#@ import namespace="Sealee.T4Helper" #>
 <#@ include file="T4Toolbox.tt" #>
-<#@ include file="$(ProjectDir)Framework/T4/ViewTemplate.t4" #>
-
+<#@ include file="$(ProjectDir)Framework/T4/Proc.t4" #>
 
 <# 
-    // 配置config
+     // 配置config
     string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
     MyConfig myConfig=StringUtil.GetConfig (solutionsPath+"_commonfile\\T4Helper.json");
     myConfig.IsOverrideFile=true;
-    myConfig.TableName="View_Demo_";
-    myConfig.NameSpace="MyD3.Entity.Demo.View";
-    List<DbView> tables = DbUtil.GetDbView(myConfig.ConnectionString,myConfig.TableName).ToList();
+    myConfig.TableName="usp_Demo_";
+    myConfig.NameSpace="My.D3.Entity.Demo.Pro";
+    List<DbObj> tables = DbUtil.GetDbObj(myConfig.ConnectionString,myConfig.TableName).ToList();
     string curPath = Path.GetDirectoryName(Host.TemplateFile);
     string destPath = Path.Combine(curPath, "");
 
-    foreach(DbView tableInfo in tables)
+    foreach(DbObj tableInfo in tables)
     {
-        string fileName = string.Format(@"{0}\{1}.cs", destPath, StringUtil.ToCase(tableInfo.ViewName));
-        ViewTemplate template = new ViewTemplate(tableInfo,myConfig);
+        string fileName = string.Format(@"{0}\{1}.cs", destPath, StringUtil.ToCase(tableInfo.ObjName));
+        Proc template = new Proc(tableInfo,myConfig);
         template.Output.Encoding = Encoding.UTF8;
         template.Output.PreserveExistingFile =false;
         template.RenderToFile(fileName);
     }
 #>
-
