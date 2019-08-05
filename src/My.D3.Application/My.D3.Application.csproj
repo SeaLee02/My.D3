@@ -7,10 +7,15 @@
   <ItemGroup>
     <Folder Include="01AppServices\" />
     <Folder Include="02DomainServices\" />
-    <Folder Include="03Repositories\" />
     <Folder Include="04PublicService\" />
     <Folder Include="05WorkerAndJob\" />
     <Folder Include="Framework\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\My.D3.DataAccess\My.D3.DataAccess.csproj" />
+    <ProjectReference Include="..\My.D3.Entity\My.D3.Entity.csproj" />
+    <ProjectReference Include="..\My.D3.Util\My.D3.Util.csproj" />
   </ItemGroup>
 
 </Project>

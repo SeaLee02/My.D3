@@ -67,7 +67,7 @@ namespace My.D3.Entity.Framework.Entity
     /// 泛型实体基类
     /// </summary>
     /// <typeparam name="TPrimaryKey">主键</typeparam>
-    public abstract class Entity<TPrimaryKey>
+    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
         /// <summary>
         /// 主键
@@ -84,4 +84,12 @@ namespace My.D3.Entity.Framework.Entity
             return base.GetHashCode();
         }
     }
+
+
+    public interface IEntity<TPrimaryKey>
+    {
+
+        TPrimaryKey Id { get; set; }
+    }
+
 }

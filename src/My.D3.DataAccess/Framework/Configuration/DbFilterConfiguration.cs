@@ -21,7 +21,7 @@
         /// <param name="db"></param>
         public static void InitContextFilter(MyDbContext db)
         {
-            //根据登入人,针对某些表进行过滤
+            //根据登入人,针对某些表进行过滤，多租户的全局过滤
             //db.Filter<ViewPFUser>(q => q.Where(x => x.IsDeleted == 0));
             //db.ViewPFUser.AsNoFilter() 取消过滤
             //db.Filter<ViewDemoStudent>(q => q.Where(x => x.StuName == "admin"));

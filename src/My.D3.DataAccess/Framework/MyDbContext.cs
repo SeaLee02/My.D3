@@ -1,6 +1,7 @@
 ﻿namespace My.D3.DataAccess.Framework
 {
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
     using My.D3.DataAccess.Framework.Configuration;
     using System.Collections.Generic;
 
@@ -15,13 +16,14 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            IEnumerable<Microsoft.EntityFrameworkCore.Metadata.IMutableEntityType> entityTypes = modelBuilder.Model.GetEntityTypes();
-            foreach (Microsoft.EntityFrameworkCore.Metadata.IMutableEntityType entityType in entityTypes)
+            IEnumerable<IMutableEntityType> entityTypes = modelBuilder.Model.GetEntityTypes();
+            foreach (IMutableEntityType entityType in entityTypes)
             {
                 DbFilterConfiguration.InitGobalFilter(entityType, modelBuilder);
 
             }
         }
+
 
         //需要ioc的
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
