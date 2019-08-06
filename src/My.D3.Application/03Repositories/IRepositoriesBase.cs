@@ -12,10 +12,11 @@
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     /// <typeparam name="TEntityDto">展示实体</typeparam>
-    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TViewDto>
+    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
-         where TViewDto : class
+        where TView : class, IEntity<TPrimaryKey>
+        where TViewDto : class
     {
         /// <summary>
         /// 获取单个的viewdto对象

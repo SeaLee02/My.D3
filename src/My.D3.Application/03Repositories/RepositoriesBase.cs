@@ -3,9 +3,11 @@ using GridData.Core;
 using My.D3.DataAccess.Framework;
 using My.D3.Entity.Framework.Dto;
 using My.D3.Entity.Framework.Entity;
+using My.D3.Util.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +20,12 @@ namespace My.D3.Application.Repositories
     /// <typeparam name="TPrimaryKey">主键的类型</typeparam>
     /// <typeparam name="TEntityDto">实体展示的类型</typeparam>
     /// <typeparam name="TViewDto">viewDto的展示</typeparam>
-    public class RepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TViewDto> :
-        IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TViewDto>
+    public class RepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto> :
+        EfCoreRepositoryBase<TEntity, TPrimaryKey>,
+        IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
+        where TView : class, IEntity<TPrimaryKey>
         where TViewDto : class
     {
         private readonly MyDbContext _db;
@@ -39,54 +43,162 @@ namespace My.D3.Application.Repositories
         }
 
 
-        public Task BatchDeleteAsync(TPrimaryKey[] ids)
+        /// <summary>
+        /// 获取单个的dto对象
+        /// </summary>
+        /// <param name="primaryKey">获取对象转成dto</param>
+        /// <returns>dto对象</returns>
+        public async Task<TViewDto> GetViewDtoAsync(TPrimaryKey primaryKey)
         {
-            throw new NotImplementedException();
+            Expression<Func<TView, bool>> func = this.CreateViewEqualityExpressionForId(primaryKey);
+            TView view = _db.Query<TView>().FirstOrDefault(func);
+            TViewDto viewDto = this._mapper.Map<TViewDto>(view);
+            return await Task.FromResult(viewDto);
         }
 
-        public Task<TEntityDto> CreateByDtoAsync(TEntityDto input)
+
+        /// <summary>   
+        ///  视图分页
+        /// </summary>
+        /// <code>
+        /// <![CDATA[
+        ///  PagedInputDto pagedInputDto = new PagedInputDto()        ///                 {        ///                     PageIndex = 1,        ///                     PageSize = 10,        ///                     Order = "StuName desc"        ///                 };        ///                 pagedInputDto.Filter = new PageFilterDto()        ///                 {        ///                     Type = "and",        ///                     Conditions = new System.Collections.Generic.List<Condition>()        ///                     {        ///                         new Condition() { Attribute = "StuName", Datatype = "nvarchar", Operatoer = "like", Value = "0" },        ///                         new Condition() { Attribute = "Birthday", Datatype = "int", Operatoer = "null" }        ///                     },        ///                     Filters = new System.Collections.Generic.List<PageFilterDto>()        ///                     {        ///                         new PageFilterDto()        ///                         {        ///                             Type = "or",        ///                             Conditions = new System.Collections.Generic.List<Condition>()        ///                             {        ///                                 new Condition() { Attribute = "ApproveState", Datatype = "nvarchar",        ///                                     Operatoer = "eq", Value = "审核中" }        ///                             }        ///                         }        ///                     }        ///                 };        ///                 var pagedResult = service.GetPage(pagedInputDto);
+        /// ]]>
+        /// </code>
+        /// <param name="pagedInputDto">分页输入对象</param>
+        /// <returns>分页对象</returns>
+        public virtual async Task<MyPagedResult<TViewDto>> GetViewPageAsync(PagedInputDto pagedInputDto)
         {
-            throw new NotImplementedException();
+            MyDbContext db = this._db;
+            MyPagedResult<TViewDto> pageResult = await db.Query<TView>().GetPageAsync<TView, TViewDto>(pagedInputDto);
+            return pageResult;
         }
 
-        public Task<List<TEntityDto>> GetAllListDtoAsync()
+
+        /// <summary>   
+        ///  分页
+        /// </summary>
+        /// <code>
+        /// <![CDATA[
+        ///  PagedInputDto pagedInputDto = new PagedInputDto()        ///                 {        ///                     PageIndex = 1,        ///                     PageSize = 10,        ///                     Order = "StuName desc"        ///                 };        ///                 pagedInputDto.Filter = new PageFilterDto()        ///                 {        ///                     Type = "and",        ///                     Conditions = new System.Collections.Generic.List<Condition>()        ///                     {        ///                         new Condition() { Attribute = "StuName", Datatype = "nvarchar", Operatoer = "like", Value = "0" },        ///                         new Condition() { Attribute = "Birthday", Datatype = "int", Operatoer = "null" }        ///                     },        ///                     Filters = new System.Collections.Generic.List<PageFilterDto>()        ///                     {        ///                         new PageFilterDto()        ///                         {        ///                             Type = "or",        ///                             Conditions = new System.Collections.Generic.List<Condition>()        ///                             {        ///                                 new Condition() { Attribute = "ApproveState", Datatype = "nvarchar",        ///                                     Operatoer = "eq", Value = "审核中" }        ///                             }        ///                         }        ///                     }        ///                 };        ///                 var pagedResult = service.GetPage(pagedInputDto);
+        /// ]]>
+        /// </code>
+        /// <param name="pagedInputDto">分页输入对象</param>
+        /// <returns>分页对象</returns>
+        public virtual async Task<MyPagedResult<TEntityDto>> GetPageAsync(PagedInputDto pagedInputDto)
         {
-            throw new NotImplementedException();
+            var pageResult = await _db.Query<TEntity>().GetPageAsync<TEntity, TEntityDto>(pagedInputDto);
+            return pageResult;
         }
 
-        public Task<List<TDto>> GetAllListDtoAsync<TDto>()
+        /// <summary>
+        /// 获取所有数据List
+        /// </summary>
+        /// <returns>转换后的dto</returns>
+        public virtual async Task<List<TEntityDto>> GetAllListDtoAsync()
         {
-            throw new NotImplementedException();
+            var dtoList = await this.GetAllListDtoAsync<TEntityDto>();
+            return dtoList;
         }
 
-        public Task<TEntityDto> GetDtoAsync(TPrimaryKey primaryKey)
+        /// <summary>
+        /// 返回对应的dto类型集合
+        /// </summary>
+        /// <typeparam name="TDto">映射了该实体的dto返回</typeparam>
+        /// <returns>返回对应的dto</returns>
+        public virtual async Task<List<TDto>> GetAllListDtoAsync<TDto>()
         {
-            throw new NotImplementedException();
+            var list = await base.GetAllListAsync(); ;
+            var dtoList = this._mapper.Map<List<TDto>>(list);
+            return dtoList;
         }
 
-        public Task<TDto> GetDtoAsync<TDto>(TPrimaryKey primaryKey)
+        /// <summary>
+        /// 获取单个的dto对象
+        /// </summary>
+        /// <param name="primaryKey">获取对象转成dto</param>
+        /// <returns>dto对象</returns>
+        public virtual async Task<TEntityDto> GetDtoAsync(TPrimaryKey primaryKey)
         {
-            throw new NotImplementedException();
+            var dto = await this.GetDtoAsync<TEntityDto>(primaryKey);
+            return dto;
         }
 
-        public Task<MyPagedResult<TEntityDto>> GetPageAsync(PagedInputDto pagedInputDto)
+        /// <summary>
+        /// 返回对应的dto对象
+        /// </summary>
+        /// <typeparam name="TDto">dto类型</typeparam>
+        /// <param name="primaryKey">主键</param>
+        /// <returns>对应的dto类型的值</returns>
+        public virtual async Task<TDto> GetDtoAsync<TDto>(TPrimaryKey primaryKey)
         {
-            throw new NotImplementedException();
+            var entity = await base.GetAsync(primaryKey);
+
+            foreach (var navgation in this._db.Entry(entity).Navigations)
+            {
+                await navgation.LoadAsync();
+            }
+
+            var dto = this._mapper.Map<TDto>(entity);
+            return dto;
         }
 
-        public Task<TViewDto> GetViewDtoAsync(TPrimaryKey primaryKey)
+        /// <summary>
+        /// 根据输入的dto创建对象
+        /// </summary>
+        /// <param name="input">创建输入的dto</param>
+        /// <returns>展示的dto</returns>
+        public virtual async Task<TEntityDto> CreateByDtoAsync(TEntityDto input)
         {
-            throw new NotImplementedException();
+            var entity = this._mapper.Map<TEntity>(input);
+            entity = await base.InsertAsync(entity);
+            await _db.SaveChangesAsync();
+            return _mapper.Map<TEntityDto>(entity);
         }
 
-        public Task<MyPagedResult<TViewDto>> GetViewPageAsync(PagedInputDto pagedInputDto)
+        /// <summary>
+        /// 更新的dto
+        /// </summary>
+        /// <param name="input">输入对象</param>
+        /// <returns>展示的Dto</returns>
+        public virtual async Task<TEntityDto> UpdateByDtoAsync(TEntityDto input)
         {
-            throw new NotImplementedException();
+            // 找出实体
+            var oldEntity = await base.GetAsync(input.Id);
+
+            // 对比变化 只更新不为空的属性值
+            var entity = input.ObjectMapTo(oldEntity);
+            entity = await base.UpdateAsync(entity);
+            return _mapper.Map<TEntityDto>(entity);
         }
 
-        public Task<TEntityDto> UpdateByDtoAsync(TEntityDto input)
+
+        /// <summary>
+        /// 批量删除（自带事物）
+        /// </summary>
+        /// <param name="ids">id的集合</param>
+        /// <returns>任务</returns>
+        public virtual async Task BatchDeleteAsync(TPrimaryKey[] ids)
         {
-            throw new NotImplementedException();
+            foreach (var id in ids)
+            {
+                await this.DeleteAsync(id);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 根据主键查询构建lambdaParam参数
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns></returns>
+        private Expression<Func<TView, bool>> CreateViewEqualityExpressionForId(TPrimaryKey id)
+        {
+            ParameterExpression lambdaParam = Expression.Parameter(typeof(TView));
+            BinaryExpression lambdaBody = Expression.Equal(Expression.PropertyOrField(lambdaParam, "Id"), Expression.Constant(id, typeof(TPrimaryKey)));
+            return Expression.Lambda<Func<TView, bool>>(lambdaBody, lambdaParam);
         }
     }
 }
