@@ -22,6 +22,15 @@ namespace My.D3.Application.Repositories
         /// <summary>
         /// 构造函数
         /// </summary>
+        /// <param name="dbContext"></param>
+        public EfCoreRepositoryBase(MyDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         //public EfCoreRepositoryBase(MyDbContext db)
         //{
         //    this._db = db;

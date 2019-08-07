@@ -30,6 +30,17 @@ namespace My.D3.Application.Repositories
         private readonly MyDbContext _db;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// 构造函数，传递上下文
+        /// </summary>
+        /// <param name="dbContext"></param>
+        /// <param name="mapper"></param>
+        public RepositoriesBase(MyDbContext dbContext, IMapper mapper) : base(dbContext)
+        {
+            _db = dbContext;
+            _mapper = mapper;
+        }
+
         ///// <summary>
         ///// 仓储构造方法
         ///// </summary>
