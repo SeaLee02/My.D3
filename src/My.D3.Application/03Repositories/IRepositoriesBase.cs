@@ -12,18 +12,17 @@
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     /// <typeparam name="TEntityDto">展示实体</typeparam>
-    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto>
+    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
         where TView : class, IEntity<TPrimaryKey>
-        where TViewDto : class
     {
         /// <summary>
         /// 获取单个的viewdto对象
         /// </summary>
         /// <param name="primaryKey">获取对象转成dto</param>
         /// <returns>dto对象</returns>
-        Task<TViewDto> GetViewDtoAsync(TPrimaryKey primaryKey);
+        Task<TView> GetViewDtoAsync(TPrimaryKey primaryKey);
 
 
         /// <summary>   
@@ -36,7 +35,7 @@
         /// </code>
         /// <param name="pagedInputDto">分页输入对象</param>
         /// <returns>分页对象</returns>
-        Task<MyPagedResult<TViewDto>> GetViewPageAsync(PagedInputDto pagedInputDto);
+        Task<MyPagedResult<TView>> GetViewPageAsync(PagedInputDto pagedInputDto);
 
 
         /// <summary>   

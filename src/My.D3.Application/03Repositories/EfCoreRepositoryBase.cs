@@ -19,6 +19,9 @@ namespace My.D3.Application.Repositories
     {
         private readonly MyDbContext _db;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         //public EfCoreRepositoryBase(MyDbContext db)
         //{
         //    this._db = db;
@@ -26,7 +29,10 @@ namespace My.D3.Application.Repositories
 
         public virtual DbSet<TEntity> Table => _db.Set<TEntity>();
 
-
+        /// <summary>
+        /// 获取该表的所有数据
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<TEntity> GetAll()
         {
             return this.GetAllIncluding(Array.Empty<Expression<Func<TEntity, object>>>());

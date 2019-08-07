@@ -20,27 +20,26 @@ namespace My.D3.Application.Repositories
     /// <typeparam name="TPrimaryKey">主键的类型</typeparam>
     /// <typeparam name="TEntityDto">实体展示的类型</typeparam>
     /// <typeparam name="TViewDto">viewDto的展示</typeparam>
-    public class RepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto> :
+    public class RepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView> :
         EfCoreRepositoryBase<TEntity, TPrimaryKey>,
-        IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView, TViewDto>
+        IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
         where TView : class, IEntity<TPrimaryKey>
-        where TViewDto : class
     {
         private readonly MyDbContext _db;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// 仓储构造方法
-        /// </summary>
-        /// <param name="db">数据库连接</param>
-        /// <param name="mapper">映射</param>
-        public RepositoriesBase(MyDbContext db, IMapper mapper)
-        {
-            this._db = db;
-            this._mapper = mapper;
-        }
+        ///// <summary>
+        ///// 仓储构造方法
+        ///// </summary>
+        ///// <param name="db">数据库连接</param>
+        ///// <param name="mapper">映射</param>
+        //public RepositoriesBase(MyDbContext db, IMapper mapper)
+        //{
+        //    this._db = db;
+        //    this._mapper = mapper;
+        //}
 
 
         /// <summary>
@@ -48,12 +47,11 @@ namespace My.D3.Application.Repositories
         /// </summary>
         /// <param name="primaryKey">获取对象转成dto</param>
         /// <returns>dto对象</returns>
-        public async Task<TViewDto> GetViewDtoAsync(TPrimaryKey primaryKey)
+        public virtual async Task<TView> GetViewDtoAsync(TPrimaryKey primaryKey)
         {
             Expression<Func<TView, bool>> func = this.CreateViewEqualityExpressionForId(primaryKey);
             TView view = _db.Query<TView>().FirstOrDefault(func);
-            TViewDto viewDto = this._mapper.Map<TViewDto>(view);
-            return await Task.FromResult(viewDto);
+            return await Task.FromResult(view);
         }
 
 
@@ -67,10 +65,10 @@ namespace My.D3.Application.Repositories
         /// </code>
         /// <param name="pagedInputDto">分页输入对象</param>
         /// <returns>分页对象</returns>
-        public virtual async Task<MyPagedResult<TViewDto>> GetViewPageAsync(PagedInputDto pagedInputDto)
+        public virtual async Task<MyPagedResult<TView>> GetViewPageAsync(PagedInputDto pagedInputDto)
         {
             MyDbContext db = this._db;
-            MyPagedResult<TViewDto> pageResult = await db.Query<TView>().GetPageAsync<TView, TViewDto>(pagedInputDto);
+            MyPagedResult<TView> pageResult = await db.Query<TView>().GetPageAsync<TView, TView>(pagedInputDto);
             return pageResult;
         }
 
@@ -118,7 +116,7 @@ namespace My.D3.Application.Repositories
         /// </summary>
         /// <param name="primaryKey">获取对象转成dto</param>
         /// <returns>dto对象</returns>
-        public virtual async Task<TEntityDto> GetDtoAsync(TPrimaryKey primaryKey)
+        public async Task<TEntityDto> GetDtoAsync(TPrimaryKey primaryKey)
         {
             var dto = await this.GetDtoAsync<TEntityDto>(primaryKey);
             return dto;
@@ -174,7 +172,7 @@ namespace My.D3.Application.Repositories
 
 
         /// <summary>
-        /// 批量删除（自带事物）
+        /// 批量删除
         /// </summary>
         /// <param name="ids">id的集合</param>
         /// <returns>任务</returns>
