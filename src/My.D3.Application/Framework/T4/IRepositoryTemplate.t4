@@ -1,0 +1,43 @@
+﻿<#+
+// <copyright file="IRepositoryTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class IRepositoryTemplate : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public IRepositoryTemplate(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+
+	public override string TransformText()
+	{
+
+#>
+namespace  <#=_config.NameSpace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>.Dto;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>.View;
+
+    /// <summary>
+    /// <#=_model.TableDesc #>仓储接口
+    /// </summary>
+    public interface I<#=StringUtil.ToCase(_model.TableName) #>Repository : IRepositoriesBase<<#=StringUtil.ToCase(_model.TableName) #>Entity, <#=_model.CShareType #>, <#=StringUtil.ToCase(_model.TableName) #>Dto, View<#=StringUtil.ToCase(_model.TableName) #>>
+    {
+
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

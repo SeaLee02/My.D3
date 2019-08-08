@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace My.D3.Util.Extensions
 {
-    public static class CollectionExtensions
+    public static class CollectionEx
     {
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {

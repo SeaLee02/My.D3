@@ -14,7 +14,7 @@ using CollectionExtensions = My.D3.Util.Extensions.CollectionExtensions;
 
 namespace My.D3.Application.Repositories
 {
-    public class EfCoreRepositoryBase<TEntity, TPrimaryKey>
+    public class EfCoreRepositoryBase<TEntity, TPrimaryKey>  //一个类用来继承IRepositories
           where TEntity : class, IEntity<TPrimaryKey>
     {
         private readonly MyDbContext _db;

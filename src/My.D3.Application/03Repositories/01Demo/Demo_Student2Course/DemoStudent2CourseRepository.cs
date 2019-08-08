@@ -12,9 +12,9 @@
     using My.D3.Entity.Demo.View;
 
     /// <summary>
-    /// 学生表仓储接口
+    /// 学生课程表仓储接口
     /// </summary>
-    public class DemoStudentRepository : RepositoriesBase<DemoStudentEntity, Guid, DemoStudentDto, ViewDemoStudent>, IDemoStudentRepository
+    public class DemoStudent2CourseRepository : RepositoriesBase<DemoStudent2CourseEntity, Guid, DemoStudent2CourseDto, ViewDemoStudent2Course>, IDemoStudent2CourseRepository
     {
 
         private readonly MyDbContext _db;
@@ -23,7 +23,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoStudentRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public DemoStudent2CourseRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
             this._db = dbContext;
             this._mapper = mapper;

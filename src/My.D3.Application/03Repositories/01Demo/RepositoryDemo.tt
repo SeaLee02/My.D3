@@ -1,0 +1,50 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)_commonfile\Sealee.T4Helper.dll" #>
+<#@ import namespace="Sealee.T4Helper" #>
+<#@ include file="T4Toolbox.tt" #>
+<#@ include file="$(ProjectDir)Framework/T4/IRepositoryTemplate.t4" #>        //仓储接口
+<#@ include file="$(ProjectDir)Framework/T4/RepositoryTemplate.t4" #>          //仓储        
+<#@ include file="$(ProjectDir)Framework/T4/ResDtoTemplate.t4" #>
+
+
+<# 
+		// 配置config
+		string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+		MyConfig myConfig=StringUtil.GetConfig (solutionsPath+"_commonfile\\T4Helper.json");
+		myConfig.IsOverrideFile=true;
+		myConfig.TableName="Demo_";
+		myConfig.NameSpace="My.D3.Application.Repositories.Demo";
+		List<DbTable> tableInfos=DbUtil.GetDbTables(myConfig.ConnectionString,myConfig.TableName).Where(x=>x.HasPrimaryKey==true).ToList();
+		string curPath = Path.GetDirectoryName(Host.TemplateFile);
+		
+
+		foreach(DbTable tableInfo in tableInfos)
+		{
+            string destPath = Path.Combine(curPath, tableInfo.TableName);
+			string fileName = string.Format(@"{0}\{1}.cs", destPath,"_I"+ StringUtil.ToCase(tableInfo.TableName)+"Repository");
+			IRepositoryTemplate template = new IRepositoryTemplate(tableInfo,myConfig);
+			template.Output.PreserveExistingFile =!myConfig.IsOverrideFile;
+			template.Output.Encoding = Encoding.UTF8;							
+			template.RenderToFile(fileName);
+
+            destPath = Path.Combine(curPath, tableInfo.TableName);
+		    fileName = string.Format(@"{0}\{1}.cs", destPath,StringUtil.ToCase(tableInfo.TableName)+"Repository");
+			RepositoryTemplate template2 = new RepositoryTemplate(tableInfo,myConfig);
+			template2.Output.PreserveExistingFile =myConfig.IsOverrideFile;
+			template2.Output.Encoding = Encoding.UTF8;							
+			template2.RenderToFile(fileName);
+
+            destPath = Path.Combine(curPath, tableInfo.TableName);
+		    fileName = string.Format(@"{0}\Dto\{1}.cs", destPath,StringUtil.ToCase(tableInfo.TableName)+"ResDto");
+			ResDtoTemplate template3 = new ResDtoTemplate(tableInfo,myConfig);
+			template3.Output.PreserveExistingFile =myConfig.IsOverrideFile;
+			template3.Output.Encoding = Encoding.UTF8;							
+			template3.RenderToFile(fileName);
+
+		}
+#>

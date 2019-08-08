@@ -1,0 +1,150 @@
+﻿<#+
+// <copyright file="AppServiceTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class AppServiceTemplate : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public AppServiceTemplate(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+	public override string TransformText()
+	{
+#>
+namespace <#=_config.NameSpace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using GridData.Core;
+    using My.D3.Application.Framework.Dto;
+    using My.D3.Application.Repositories.<#=StringUtil.GetModuleName(_config.NameSpace) #>;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>.Dto;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>.View;
+    using My.D3.Util.Extensions;
+
+    public class <#=StringUtil.ToCase(_model.TableName) #>AppService : I<#=StringUtil.ToCase(_model.TableName) #>AppService
+    {
+        private readonly I<#=StringUtil.ToCase(_model.TableName) #>Repository _<#=StringUtil.ToFLower(_model.TableName) #>Repository;
+        public <#=StringUtil.ToCase(_model.TableName) #>AppService(I<#=StringUtil.ToCase(_model.TableName) #>Repository <#=StringUtil.ToFLower(_model.TableName) #>Repository)
+        {
+            this._<#=StringUtil.ToFLower(_model.TableName) #>Repository = <#=StringUtil.ToFLower(_model.TableName) #>Repository;
+        }
+
+        /// <summary>
+        /// 获取单个  [<#=_model.TableDesc #>]  的dto
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns>单个对象的dto</returns>
+        public async Task<<#=StringUtil.ToCase(_model.TableName) #>Dto> GetDto(<#=_model.CShareType #> id)
+        {
+            var dto = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.GetDtoAsync(id);
+            return dto;
+        }
+
+        /// <summary>
+        /// 获取单个  [<#=_model.TableDesc #>] 视图的dto
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns>单个对象的dto</returns>
+        public async Task<View<#=StringUtil.ToCase(_model.TableName) #>> GetViewDto(<#=_model.CShareType #> id)
+        {
+            var dto = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.GetViewDtoAsync(id);
+            return dto;
+        }
+
+        /// <summary>
+        /// 获取  [<#=_model.TableDesc #>] 视图分页的信息
+        /// </summary>
+        /// <param name="pagedInputDto">分页输入的Dto</param>
+        /// <returns>分页信息</returns>
+        public async Task<MyPagedResult<View<#=StringUtil.ToCase(_model.TableName) #>>> GetViewPage(PagedInputDto pagedInputDto)
+        {
+            var pagedResult = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.GetViewPageAsync(pagedInputDto);
+            return pagedResult;
+        }
+
+        /// <summary>
+        /// 获取  [<#=_model.TableDesc #>] 分页的信息
+        /// </summary>
+        /// <param name="pagedInputDto">分页输入的Dto</param>
+        /// <returns>分页信息</returns>
+        public async Task<MyPagedResult<<#=StringUtil.ToCase(_model.TableName) #>Dto>> GetPage(PagedInputDto pagedInputDto)
+        {
+            var pagedResult = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.GetPageAsync(pagedInputDto);
+            return pagedResult;
+        }
+
+        /// <summary>
+        /// 获取 [<#=_model.TableDesc #>] 的所有信息
+        /// </summary>
+        /// <returns>list集合</returns>
+        public async Task<List<<#=StringUtil.ToCase(_model.TableName) #>Dto>> GetAllListDto()
+        {
+            var listResult = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.GetAllListDtoAsync();
+            return listResult;
+        }
+
+
+
+        /// <summary>
+        /// 创建  [<#=_model.TableDesc #>]
+        /// </summary>
+        /// <param name="input">创建输入实体</param>
+        /// <returns>输出dto</returns>
+        public async Task<<#=StringUtil.ToCase(_model.TableName) #>Dto> CreateByDto(<#=StringUtil.ToCase(_model.TableName) #>Dto input)
+        {
+            var dto = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.CreateByDtoAsync(input);
+            return dto;
+        }
+
+        /// <summary>
+        /// 更新  [<#=_model.TableDesc #>]
+        /// </summary>
+        /// <param name="input">更新的实体的对象</param>
+        /// <returns>更新后的对象</returns>
+        public async Task<<#=StringUtil.ToCase(_model.TableName) #>Dto> UpdateByDto(<#=StringUtil.ToCase(_model.TableName) #>Dto input)
+        {
+            var dto = await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.UpdateByDtoAsync(input);
+            return dto;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id">实体的id</param>
+        /// <returns>task 空值</returns>
+        public async Task Delete(<#=_model.CShareType #> id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="deleteDto"></param>
+        /// <returns></returns>
+        public async Task BatchDelete(DeleteDto deleteDto)
+        {
+            string strId = deleteDto.Id;
+            IEnumerable<string> ids = strId.Split(",").Select(x => x.Replace("'", string.Empty));
+            List<<#=_model.CShareType #>> newIds = new List<<#=_model.CShareType #>>();
+            foreach (var id in ids)
+            {
+                newIds.Add(id.ConvertTo<<#=_model.CShareType #>>());
+            }
+            await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.BatchDeleteAsync(newIds.ToArray());
+        }
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

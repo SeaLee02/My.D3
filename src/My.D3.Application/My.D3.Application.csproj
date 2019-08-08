@@ -5,17 +5,79 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="01AppServices\" />
     <Folder Include="02DomainServices\" />
     <Folder Include="04PublicService\" />
     <Folder Include="05WorkerAndJob\" />
-    <Folder Include="Framework\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\My.D3.DataAccess\My.D3.DataAccess.csproj" />
     <ProjectReference Include="..\My.D3.Entity\My.D3.Entity.csproj" />
     <ProjectReference Include="..\My.D3.Util\My.D3.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="01AppServices\01Demo\AppServiceDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AppServiceDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\AppServiceDemo.cs
+.\Demo_Class\_IDemoClassAppService.cs
+.\Demo_Class\DemoClassAppService.cs
+.\Demo_Course\_IDemoCourseAppService.cs
+.\Demo_Course\DemoCourseAppService.cs
+.\Demo_School\_IDemoSchoolAppService.cs
+.\Demo_School\DemoSchoolAppService.cs
+.\Demo_Student\_IDemoStudentAppService.cs
+.\Demo_Student\DemoStudentAppService.cs
+.\Demo_Student2Course\_IDemoStudent2CourseAppService.cs
+.\Demo_Student2Course\DemoStudent2CourseAppService.cs
+</LastOutputs>
+    </None>
+    <None Update="03Repositories\01Demo\RepositoryDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RepositoryDemo.cs</LastGenOutput>
+      <LastOutputs>
+.\Demo_Class\_IDemoClassRepository.cs
+.\Demo_Course\_IDemoCourseRepository.cs
+.\Demo_School\_IDemoSchoolRepository.cs
+.\Demo_Student\_IDemoStudentRepository.cs
+.\Demo_Student2Course\_IDemoStudent2CourseRepository.cs
+.\RepositoryDemo.cs
+</LastOutputs>
+    </None>
+    <None Update="Framework\T4\AppServiceTemplate.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Framework\T4\IAppServiceTemplate.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Framework\T4\IRepositoryTemplate.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Framework\T4\RepositoryTemplate.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Framework\T4\ResDtoTemplate.t4">
+      <Generator></Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="01AppServices\01Demo\AppServiceDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AppServiceDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="03Repositories\01Demo\RepositoryDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RepositoryDemo.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

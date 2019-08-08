@@ -1,0 +1,70 @@
+﻿<#+
+// <copyright file="ResDtoTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class ResDtoTemplate : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public ResDtoTemplate(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+
+         private string GetIsNull(DbColumn column)
+     {
+         if(column.CommonType.IsValueType && column.IsNullable){
+              return "?";
+         }else{
+             return "";
+         }
+      }
+
+     private string GetIsNull(string str)
+     {
+         if(str.Equals("varchar")||str.Equals("")){
+              return "?";
+         }else{
+             return "";
+         }
+      }
+	public override string TransformText()
+	{
+#>
+namespace <#=_config.NameSpace #>
+{
+    using System;
+    using System.ComponentModel;   
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using My.D3.Entity.Framework.Dto;
+
+    /// <summary>
+    /// <#=_model.TableDesc #>
+    /// </summary>
+    [Table("<#= _model.TableName #>")]
+    public partial class <#=StringUtil.ToCase(_model.TableName) #>ResDto : BaseEntityDto<<#=_model.CShareType #>>
+    {
+<#+foreach(DbColumn column in _model.DbColumns.Where(x=>x.ColumnName!=_model.TablePrimarkeyName)){#>
+        /// <summary>
+        /// <#=column.ColumnDesc #>
+        /// </summary>
+<#+if(column.ColumnDesc!=""){#>
+        [Display(Description = "<#=column.ColumnDesc #>", Name = "<#=column.ColumnDesc #>")]
+<#+}#>
+		[Column("<#=column.ColumnName #>")]
+<#+if(column.CShareType=="string"){#>
+        [StringLength(<#=column.CharLength #>)]
+<#+}#>
+        public <#= column.CShareType  #><#= GetIsNull(column) #>  <#= StringUtil.ToCase(column.ColumnName) #> { get; set; }
+
+<#+} #>
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

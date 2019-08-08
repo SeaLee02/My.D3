@@ -12,7 +12,7 @@
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     /// <typeparam name="TEntityDto">展示实体</typeparam>
-    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>
+    public interface IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>  //应该继承一个接口  里面  有一些扩展方法  IRepositories
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
         where TView : class, IEntity<TPrimaryKey>
