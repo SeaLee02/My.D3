@@ -12,7 +12,7 @@
     /// <summary>
     /// 学院表仓储接口
     /// </summary>
-    public interface IDemoSchoolRepository : IRepositoriesBase<DemoSchoolEntity, Guid, DemoSchoolDto, ViewDemoSchool>
+    public interface IDemoSchoolRepository : IRepository<DemoSchoolEntity, Guid>,IRepositoriesBase<DemoSchoolEntity, Guid, DemoSchoolDto, ViewDemoSchool>
     {
 
     }

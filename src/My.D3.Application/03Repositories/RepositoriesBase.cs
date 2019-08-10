@@ -21,23 +21,25 @@ namespace My.D3.Application.Repositories
     /// <typeparam name="TEntityDto">实体展示的类型</typeparam>
     /// <typeparam name="TViewDto">viewDto的展示</typeparam>
     public class RepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView> :
-        EfCoreRepositoryBase<TEntity, TPrimaryKey>,
+        EFCoreRepositoryBase<MyDbContext, TEntity, TPrimaryKey>,
         IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
         where TView : class, IEntity<TPrimaryKey>
     {
-        private readonly MyDbContext _db;
+        //private readonly MyDbContext _db;
         private readonly IMapper _mapper;
+
+        private readonly IDbContextProvider<MyDbContext> _dbContextProvider;
 
         /// <summary>
         /// 构造函数，传递上下文
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="mapper"></param>
-        public RepositoriesBase(MyDbContext dbContext, IMapper mapper) : base(dbContext)
+        public RepositoriesBase(IDbContextProvider<MyDbContext> dbContextProvider, IMapper mapper) : base(dbContextProvider)
         {
-            _db = dbContext;
+            this._dbContextProvider = dbContextProvider;
             _mapper = mapper;
         }
 
@@ -60,8 +62,9 @@ namespace My.D3.Application.Repositories
         /// <returns>dto对象</returns>
         public virtual async Task<TView> GetViewDtoAsync(TPrimaryKey primaryKey)
         {
+            var db = this._dbContextProvider.GetDbContext();
             Expression<Func<TView, bool>> func = this.CreateViewEqualityExpressionForId(primaryKey);
-            TView view = _db.Query<TView>().FirstOrDefault(func);
+            TView view = db.Query<TView>().FirstOrDefault(func);
             return await Task.FromResult(view);
         }
 
@@ -78,7 +81,7 @@ namespace My.D3.Application.Repositories
         /// <returns>分页对象</returns>
         public virtual async Task<MyPagedResult<TView>> GetViewPageAsync(PagedInputDto pagedInputDto)
         {
-            MyDbContext db = this._db;
+            var db = this._dbContextProvider.GetDbContext();
             MyPagedResult<TView> pageResult = await db.Query<TView>().GetPageAsync<TView, TView>(pagedInputDto);
             return pageResult;
         }
@@ -96,7 +99,8 @@ namespace My.D3.Application.Repositories
         /// <returns>分页对象</returns>
         public virtual async Task<MyPagedResult<TEntityDto>> GetPageAsync(PagedInputDto pagedInputDto)
         {
-            var pageResult = await _db.Query<TEntity>().GetPageAsync<TEntity, TEntityDto>(pagedInputDto);
+            var db = this._dbContextProvider.GetDbContext();
+            var pageResult = await db.Query<TEntity>().GetPageAsync<TEntity, TEntityDto>(pagedInputDto);
             return pageResult;
         }
 
@@ -141,9 +145,10 @@ namespace My.D3.Application.Repositories
         /// <returns>对应的dto类型的值</returns>
         public virtual async Task<TDto> GetDtoAsync<TDto>(TPrimaryKey primaryKey)
         {
+            var db = this._dbContextProvider.GetDbContext();
             var entity = await base.GetAsync(primaryKey);
 
-            foreach (var navgation in this._db.Entry(entity).Navigations)
+            foreach (var navgation in db.Entry(entity).Navigations)
             {
                 await navgation.LoadAsync();
             }
@@ -159,9 +164,10 @@ namespace My.D3.Application.Repositories
         /// <returns>展示的dto</returns>
         public virtual async Task<TEntityDto> CreateByDtoAsync(TEntityDto input)
         {
+            var db = this._dbContextProvider.GetDbContext();
             var entity = this._mapper.Map<TEntity>(input);
             entity = await base.InsertAsync(entity);
-            await _db.SaveChangesAsync();
+            await db.SaveChangesAsync();
             return _mapper.Map<TEntityDto>(entity);
         }
 

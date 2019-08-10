@@ -33,17 +33,16 @@ namespace  <#=_config.NameSpace #>
     /// <#=_model.TableDesc #>仓储接口
     /// </summary>
     public class <#=StringUtil.ToCase(_model.TableName) #>Repository : RepositoriesBase<<#=StringUtil.ToCase(_model.TableName) #>Entity,  <#=_model.CShareType #>, <#=StringUtil.ToCase(_model.TableName) #>Dto, View<#=StringUtil.ToCase(_model.TableName) #>>, I<#=StringUtil.ToCase(_model.TableName) #>Repository
-    {
-
-        private readonly MyDbContext _db;
+    {      
+        private readonly IDbContextProvider<MyDbContext> _dbContextProvider;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public <#=StringUtil.ToCase(_model.TableName) #>Repository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public <#=StringUtil.ToCase(_model.TableName) #>Repository(IDbContextProvider<MyDbContext> _dbContextProvider, IMapper mapper) : base(_dbContextProvider, mapper)
         {
-            this._db = dbContext;
+            this._dbContextProvider = _dbContextProvider;
             this._mapper = mapper;
         }
 

@@ -1,4 +1,4 @@
-﻿namespace My.D3.Application.Repositories.Demo
+﻿namespace  My.D3.Application.Repositories.Demo
 {
     using AutoMapper;
     using System;
@@ -14,21 +14,20 @@
     /// <summary>
     /// 学生课程表仓储接口
     /// </summary>
-    public class DemoStudent2CourseRepository : RepositoriesBase<DemoStudent2CourseEntity, Guid, DemoStudent2CourseDto, ViewDemoStudent2Course>, IDemoStudent2CourseRepository
-    {
-
-        private readonly MyDbContext _db;
+    public class DemoStudent2CourseRepository : RepositoriesBase<DemoStudent2CourseEntity,  Guid, DemoStudent2CourseDto, ViewDemoStudent2Course>, IDemoStudent2CourseRepository
+    {      
+        private readonly IDbContextProvider<MyDbContext> _dbContextProvider;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoStudent2CourseRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public DemoStudent2CourseRepository(IDbContextProvider<MyDbContext> _dbContextProvider, IMapper mapper) : base(_dbContextProvider, mapper)
         {
-            this._db = dbContext;
+            this._dbContextProvider = _dbContextProvider;
             this._mapper = mapper;
         }
-        public string aa = "";
+
     }
 }
 

@@ -42,7 +42,7 @@
             destPath = Path.Combine(curPath, tableInfo.TableName);
 		    fileName = string.Format(@"{0}\Dto\{1}.cs", destPath,StringUtil.ToCase(tableInfo.TableName)+"ResDto");
 			ResDtoTemplate template3 = new ResDtoTemplate(tableInfo,myConfig);
-			template3.Output.PreserveExistingFile =myConfig.IsOverrideFile;
+			template3.Output.PreserveExistingFile =!myConfig.IsOverrideFile;
 			template3.Output.Encoding = Encoding.UTF8;							
 			template3.RenderToFile(fileName);
 

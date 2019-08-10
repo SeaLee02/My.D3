@@ -105,7 +105,7 @@
         /// <returns>task 空值</returns>
         public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            await this._demoClassRepository.DeleteAsync(id);
         }
 
         /// <summary>

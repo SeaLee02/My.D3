@@ -15,17 +15,16 @@
     /// 学院表仓储接口
     /// </summary>
     public class DemoSchoolRepository : RepositoriesBase<DemoSchoolEntity,  Guid, DemoSchoolDto, ViewDemoSchool>, IDemoSchoolRepository
-    {
-
-        private readonly MyDbContext _db;
+    {      
+        private readonly IDbContextProvider<MyDbContext> _dbContextProvider;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoSchoolRepository(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public DemoSchoolRepository(IDbContextProvider<MyDbContext> _dbContextProvider, IMapper mapper) : base(_dbContextProvider, mapper)
         {
-            this._db = dbContext;
+            this._dbContextProvider = _dbContextProvider;
             this._mapper = mapper;
         }
 

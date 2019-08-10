@@ -31,7 +31,7 @@ namespace  <#=_config.NameSpace #>
     /// <summary>
     /// <#=_model.TableDesc #>仓储接口
     /// </summary>
-    public interface I<#=StringUtil.ToCase(_model.TableName) #>Repository : IRepositoriesBase<<#=StringUtil.ToCase(_model.TableName) #>Entity, <#=_model.CShareType #>, <#=StringUtil.ToCase(_model.TableName) #>Dto, View<#=StringUtil.ToCase(_model.TableName) #>>
+    public interface I<#=StringUtil.ToCase(_model.TableName) #>Repository : IRepository<<#=StringUtil.ToCase(_model.TableName) #>Entity, <#=_model.CShareType #>>,IRepositoriesBase<<#=StringUtil.ToCase(_model.TableName) #>Entity, <#=_model.CShareType #>, <#=StringUtil.ToCase(_model.TableName) #>Dto, View<#=StringUtil.ToCase(_model.TableName) #>>
     {
 
     }

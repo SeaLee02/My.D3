@@ -122,7 +122,7 @@ namespace <#=_config.NameSpace #>
         /// <returns>task 空值</returns>
         public async Task Delete(<#=_model.CShareType #> id)
         {
-            throw new NotImplementedException();
+            await this._<#=StringUtil.ToFLower(_model.TableName) #>Repository.DeleteAsync(id);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
     /// <summary>
     /// 班级表仓储接口
     /// </summary>
-    public interface IDemoClassRepository : IRepositoriesBase<DemoClassEntity, Guid, DemoClassDto, ViewDemoClass>
+    public interface IDemoClassRepository : IRepository<DemoClassEntity, Guid>,IRepositoriesBase<DemoClassEntity, Guid, DemoClassDto, ViewDemoClass>
     {
 
     }

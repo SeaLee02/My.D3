@@ -39,10 +39,15 @@
       <LastGenOutput>RepositoryDemo.cs</LastGenOutput>
       <LastOutputs>
 .\Demo_Class\_IDemoClassRepository.cs
+.\Demo_Class\Dto\DemoClassResDto.cs
 .\Demo_Course\_IDemoCourseRepository.cs
+.\Demo_Course\Dto\DemoCourseResDto.cs
 .\Demo_School\_IDemoSchoolRepository.cs
+.\Demo_School\Dto\DemoSchoolResDto.cs
 .\Demo_Student\_IDemoStudentRepository.cs
+.\Demo_Student\Dto\DemoStudentResDto.cs
 .\Demo_Student2Course\_IDemoStudent2CourseRepository.cs
+.\Demo_Student2Course\Dto\DemoStudent2CourseResDto.cs
 .\RepositoryDemo.cs
 </LastOutputs>
     </None>

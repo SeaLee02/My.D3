@@ -12,7 +12,7 @@
     /// <summary>
     /// 学生课程表仓储接口
     /// </summary>
-    public interface IDemoStudent2CourseRepository : IRepositoriesBase<DemoStudent2CourseEntity, Guid, DemoStudent2CourseDto, ViewDemoStudent2Course>
+    public interface IDemoStudent2CourseRepository : IRepository<DemoStudent2CourseEntity, Guid>,IRepositoriesBase<DemoStudent2CourseEntity, Guid, DemoStudent2CourseDto, ViewDemoStudent2Course>
     {
 
     }

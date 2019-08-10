@@ -10,7 +10,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CollectionExtensions = My.D3.Util.Extensions.CollectionExtensions;
 
 namespace My.D3.Application.Repositories
 {
@@ -50,7 +49,7 @@ namespace My.D3.Application.Repositories
         public IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
         {
             IQueryable<TEntity> queryable = ((IEnumerable<TEntity>)Table).AsQueryable();
-            if (!CollectionExtensions.IsNullOrEmpty<Expression<Func<TEntity, object>>>(propertySelectors))
+            if (!CollectionEx.IsNullOrEmpty<Expression<Func<TEntity, object>>>(propertySelectors))
             {
                 foreach (Expression<Func<TEntity, object>> expression in propertySelectors)
                 {
