@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace My.D3.Application.Repositories
 {
-    public class EfCoreRepositoryBase<TEntity, TPrimaryKey>  //一个类用来继承IRepositories
+    public class EfCoreRepositoryBase<TEntity, TPrimaryKey> :  //一个类用来继承IRepositories
+        Repository<TEntity, TPrimaryKey>
           where TEntity : class, IEntity<TPrimaryKey>
     {
         private readonly MyDbContext _db;
@@ -27,26 +28,18 @@ namespace My.D3.Application.Repositories
             _db = dbContext;
         }
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        //public EfCoreRepositoryBase(MyDbContext db)
-        //{
-        //    this._db = db;
-        //}
-
         public virtual DbSet<TEntity> Table => _db.Set<TEntity>();
 
         /// <summary>
         /// 获取该表的所有数据
         /// </summary>
         /// <returns></returns>
-        public IQueryable<TEntity> GetAll()
+        public override IQueryable<TEntity> GetAll()
         {
             return this.GetAllIncluding(Array.Empty<Expression<Func<TEntity, object>>>());
         }
 
-        public IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
+        public override IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
         {
             IQueryable<TEntity> queryable = ((IEnumerable<TEntity>)Table).AsQueryable();
             if (!CollectionEx.IsNullOrEmpty<Expression<Func<TEntity, object>>>(propertySelectors))
@@ -59,63 +52,151 @@ namespace My.D3.Application.Repositories
             return queryable;
         }
 
-        public async Task<List<TEntity>> GetAllListAsync()
+
+        public override async Task<List<TEntity>> GetAllListAsync()
         {
-            // return await GetAll().ToListAsync();
+            //return await Task.FromResult(GetAllList());
+
             return await EntityFrameworkQueryableExtensions.ToListAsync<TEntity>(this.GetAll(), default(CancellationToken));
         }
 
-        public async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
+        public override async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            // return await GetAll().Where(predicate).ToListAsync();
+            //return await Task.FromResult(GetAllList(predicate));
             return await EntityFrameworkQueryableExtensions.ToListAsync<TEntity>(this.GetAll().Where(predicate), default(CancellationToken));
         }
 
 
-        public virtual async Task<TEntity> GetAsync(TPrimaryKey id)
+        public override async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            TEntity obj = await FirstOrDefaultAsync(id);
-            return obj;
+            return await GetAll().SingleAsync(predicate);
         }
 
-        public virtual TEntity FirstOrDefault(TPrimaryKey id)
+        public override async Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
         {
-            return GetAll().FirstOrDefault(CreateEqualityExpressionForId(id));
+            return await GetAll().FirstOrDefaultAsync(CreateEqualityExpressionForId(id));
         }
 
-
-        public async Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
+        public override async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            //return await GetAll().FirstOrDefaultAsync(CreateEqualityExpressionForId(id));
-            return await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<TEntity>(this.GetAll(), this.CreateEqualityExpressionForId(id), default(CancellationToken));
+            return await GetAll().FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            //return await GetAll().FirstOrDefaultAsync(predicate);
-            return await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<TEntity>(this.GetAll(), predicate, default(CancellationToken));
-        }
-        public TEntity Insert(TEntity entity)
+        public override TEntity Insert(TEntity entity)
         {
             return Table.Add(entity).Entity;
         }
 
-        public Task<TEntity> InsertAsync(TEntity entity)
+        public override Task<TEntity> InsertAsync(TEntity entity)
         {
             return Task.FromResult(Insert(entity));
         }
 
-        public TEntity Update(TEntity entity)
+        public override TPrimaryKey InsertAndGetId(TEntity entity)
+        {
+            entity = Insert(entity);
+
+            if (entity.IsTransient())
+            {
+                _db.SaveChanges();
+            }
+
+            return entity.Id;
+        }
+
+        public override async Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
+        {
+            entity = await InsertAsync(entity);
+
+            if (entity.IsTransient())
+            {
+                await _db.SaveChangesAsync();
+            }
+
+            return entity.Id;
+        }
+
+        public override TPrimaryKey InsertOrUpdateAndGetId(TEntity entity)
+        {
+            entity = InsertOrUpdate(entity);
+
+            if (entity.IsTransient())
+            {
+                _db.SaveChanges();
+            }
+
+            return entity.Id;
+        }
+
+        public override async Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity)
+        {
+            entity = await InsertOrUpdateAsync(entity);
+
+            if (entity.IsTransient())
+            {
+                await _db.SaveChangesAsync();
+            }
+
+            return entity.Id;
+        }
+
+
+        public override TEntity Update(TEntity entity)
         {
             AttachIfNot(entity);
             _db.Entry(entity).State = EntityState.Modified;
             return entity;
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity)
+        public override Task<TEntity> UpdateAsync(TEntity entity)
         {
             entity = Update(entity);
             return Task.FromResult(entity);
+        }
+
+
+
+
+        public override void Delete(TEntity entity)
+        {
+            AttachIfNot(entity);
+            Table.Remove(entity);
+        }
+
+        public override void Delete(TPrimaryKey id)
+        {
+            var entity = GetFromChangeTrackerOrNull(id);
+            if (entity != null)
+            {
+                Delete(entity);
+                return;
+            }
+            entity = FirstOrDefault(id);
+            if (entity != null)
+            {
+                Delete(entity);
+                return;
+            }
+        }
+
+        public override async Task<int> CountAsync()
+        {
+            return await GetAll().CountAsync();
+        }
+
+        public override async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await GetAll().Where(predicate).CountAsync();
+        }
+
+        public override async Task<long> LongCountAsync()
+        {
+            return await GetAll().LongCountAsync();
+        }
+
+        public override async Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await GetAll().Where(predicate).LongCountAsync();
         }
 
 
@@ -130,60 +211,6 @@ namespace My.D3.Application.Repositories
             Table.Attach(entity);
         }
 
-
-        public void Delete(TEntity entity)
-        {
-            AttachIfNot(entity);
-            Table.Remove(entity);
-        }
-
-
-        public void Delete(TPrimaryKey id)
-        {
-            var entity = GetFromChangeTrackerOrNull(id);
-            if (entity != null)
-            {
-                Delete(entity);
-                return;
-            }
-
-            entity = FirstOrDefault(id);
-            if (entity != null)
-            {
-                Delete(entity);
-                return;
-            }
-        }
-
-
-        public virtual Task DeleteAsync(TEntity entity)
-        {
-            Delete(entity);
-            return Task.FromResult(0);
-        }
-
-
-        public virtual Task DeleteAsync(TPrimaryKey id)
-        {
-            Delete(id);
-            return Task.FromResult(0);
-        }
-
-        public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
-        {
-            foreach (TEntity item in GetAll().Where(predicate).ToList())
-            {
-                Delete(item);
-            }
-        }
-
-        public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            Delete(predicate);
-            return Task.FromResult(0);
-        }
-
-
         private TEntity GetFromChangeTrackerOrNull(TPrimaryKey id)
         {
             var entry = _db.ChangeTracker.Entries()
@@ -194,23 +221,6 @@ namespace My.D3.Application.Repositories
                 );
 
             return entry?.Entity as TEntity;
-        }
-
-
-
-
-
-
-        /// <summary>
-        /// 根据主键查询构建lambdaParam参数
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns></returns>
-        private Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
-        {
-            ParameterExpression lambdaParam = Expression.Parameter(typeof(TEntity));
-            BinaryExpression lambdaBody = Expression.Equal(Expression.PropertyOrField(lambdaParam, "Id"), Expression.Constant(id, typeof(TPrimaryKey)));
-            return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
     }
 }

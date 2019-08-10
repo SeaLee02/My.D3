@@ -17,7 +17,7 @@
     myConfig.NameSpace="My.D3.Entity.Demo.View";
     List<DbView> views=DbUtil.GetDbView(myConfig.ConnectionString,myConfig.TableName).ToList();
 #>
-namespace MyCore.DataAccess.Framework
+namespace My.D3.DataAccess.Framework
 {
     using Microsoft.EntityFrameworkCore;
     using <#=        myConfig.NameSpace #>;

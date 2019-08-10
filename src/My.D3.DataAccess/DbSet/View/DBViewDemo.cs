@@ -1,5 +1,5 @@
 ﻿
-namespace MyCore.DataAccess.Framework
+namespace My.D3.DataAccess.Framework
 {
     using Microsoft.EntityFrameworkCore;
     using My.D3.Entity.Demo.View;

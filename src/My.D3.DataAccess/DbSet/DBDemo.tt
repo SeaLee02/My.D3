@@ -17,7 +17,7 @@
     myConfig.NameSpace="My.D3.Entity.Demo";
     List<DbTable> tableInfos=DbUtil.GetDbTables(myConfig.ConnectionString,myConfig.TableName).Where(x=>x.HasPrimaryKey==true).ToList();
 #>
-namespace MyCore.DataAccess.Framework
+namespace My.D3.DataAccess.Framework
 {
     using Microsoft.EntityFrameworkCore;
     using <#=myConfig.NameSpace #>;

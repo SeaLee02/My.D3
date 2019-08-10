@@ -9,6 +9,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\My.D3.Application\My.D3.Application.csproj" />
+    <ProjectReference Include="..\My.D3.DataAccess\My.D3.DataAccess.csproj" />
+    <ProjectReference Include="..\My.D3.Entity\My.D3.Entity.csproj" />
   </ItemGroup>
 
 </Project>
