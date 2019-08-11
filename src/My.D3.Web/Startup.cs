@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using My.D3.Application.AppServices.Demo;
 using My.D3.Application.Repositories;
 using My.D3.Application.Repositories.Demo;
+using My.D3.Configurations;
 using My.D3.DataAccess.Framework;
 
 namespace My.D3.Web
@@ -49,12 +54,44 @@ namespace My.D3.Web
             services.AddDbContext<MyDbContext>(options => options.UseSqlServer(path));
             #endregion
 
+            #region 依赖注入
+            //微软自带
+            services.AddScoped<IDbContextProvider<MyDbContext>, SimpleDbContextProvider<MyDbContext>>();
+            services.AddScoped<IDemoStudentAppService, DemoStudentAppService>();
+            services.AddScoped<IDemoStudentRepository, DemoStudentRepository>();
             services.AddScoped<IMyDemoStudentAppService, MyDemoStudentAppService>();
-
             services.AddScoped<IMyDemoStudentRepository, MyDemoStudentRepository>();
 
-            //services.AddScoped<MyDbContext>();
+            //实例化 AutoFac  容器   
+            //var builder = new ContainerBuilder();
+            //var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
+            //var servicesDllFile = Path.Combine(basePath, "My.D3.Application.dll");
+            //var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            //builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
+
+            //将services填充到Autofac容器生成器中
+            //builder.Populate(services);
+            //使用已进行的组件登记创建新容器
+            //var ApplicationContainer = builder.Build();
+            //return new AutofacServiceProvider(ApplicationContainer);//第三方IOC接管 core内置DI容器  
+            //IServiceProvider  返回这个
+            #endregion
+
+
         }
+
+
+        //public void ConfigureContainer(ContainerBuilder builder)
+        //{
+        //    // Add any Autofac modules or registrations.
+        //    // This is called AFTER ConfigureServices so things you
+        //    // register here OVERRIDE things registered in ConfigureServices.
+        //    //
+        //    // You must have the call to AddAutofac in the Program.Main
+        //    // method or this won't be called.
+        //    builder.RegisterModule(new AutofacModule());
+        //}
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

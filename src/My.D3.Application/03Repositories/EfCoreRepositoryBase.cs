@@ -13,19 +13,20 @@ using System.Threading.Tasks;
 
 namespace My.D3.Application.Repositories
 {
-    public class EfCoreRepositoryBase<TEntity, TPrimaryKey> :  //一个类用来继承IRepositories
+    public class EfCoreRepositoryBase<TDbContext, TEntity, TPrimaryKey> :  //一个类用来继承IRepositories
         Repository<TEntity, TPrimaryKey>
           where TEntity : class, IEntity<TPrimaryKey>
+           where TDbContext : DbContext
     {
-        private readonly MyDbContext _db;
+        private readonly TDbContext _db;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbContext"></param>
-        public EfCoreRepositoryBase(MyDbContext dbContext)
+        public EfCoreRepositoryBase(TDbContext db)
         {
-            _db = dbContext;
+            _db = db;
         }
 
         public virtual DbSet<TEntity> Table => _db.Set<TEntity>();

@@ -21,7 +21,7 @@ namespace My.D3.Application.Repositories
     /// <typeparam name="TEntityDto">实体展示的类型</typeparam>
     /// <typeparam name="TViewDto">viewDto的展示</typeparam>
     public class MyRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView> :
-        EfCoreRepositoryBase<TEntity, TPrimaryKey>,
+        EfCoreRepositoryBase<MyDbContext, TEntity, TPrimaryKey>,
         IRepositoriesBase<TEntity, TPrimaryKey, TEntityDto, TView>
         where TEntity : class, IEntity<TPrimaryKey>
         where TEntityDto : class, IEntityDto<TPrimaryKey>
