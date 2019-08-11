@@ -4,6 +4,11 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.2\My.D3.Entity.xml</DocumentationFile>
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="01Demo\06Trigger\" />
     <Folder Include="Framework\04Function\" />

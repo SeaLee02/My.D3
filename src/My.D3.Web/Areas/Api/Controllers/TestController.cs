@@ -9,9 +9,12 @@ using My.D3.Application.AppServices.Demo;
 using My.D3.DataAccess.Framework;
 using My.D3.Entity.Demo;
 using My.D3.DataAccess;
+using Microsoft.AspNetCore.Authorization;
+using My.D3.Configurations;
 
 namespace My.D3.Areas.Api.Controllers
 {
+    [MyVersion("T1")]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
@@ -25,6 +28,8 @@ namespace My.D3.Areas.Api.Controllers
             this._myDemoStudentAppService = myDemoStudentAppService;
         }
 
+
+        [Authorize(Roles = "admin")]
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {

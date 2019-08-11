@@ -5,6 +5,21 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.2\My.D3.xml</DocumentationFile>
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\swagger\ui\Index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\swagger\ui\Index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -17,6 +32,7 @@
     <ProjectReference Include="..\My.D3.Application\My.D3.Application.csproj" />
     <ProjectReference Include="..\My.D3.DataAccess\My.D3.DataAccess.csproj" />
     <ProjectReference Include="..\My.D3.Entity\My.D3.Entity.csproj" />
+    <ProjectReference Include="..\My.D3.Util\My.D3.Util.csproj" />
   </ItemGroup>
 
 </Project>
