@@ -48,13 +48,14 @@ namespace My.D3.Configurations
                     });
 
                     // Define the BearerAuth scheme that's in use
-                    //options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
-                    //{
-                    //    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    //    Name = "Authorization",
-                    //    In = "header",
-                    //    Type = "apiKey"
-                    //});
+                    //页面可以显示自定义的授权按钮
+                    options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = "header",
+                        Type = "apiKey"
+                    });
 
                     // Assign scope requirements to operations based on AuthorizeAttribute
                     options.OperationFilter<SecurityRequirementsOperationFilter>();

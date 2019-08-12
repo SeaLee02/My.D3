@@ -56,7 +56,10 @@ namespace My.D3.Web
             services.AddDbContext<MyDbContext>(options => options.UseSqlServer(path));
             #endregion
 
+            #region SwaggerUI
             DocConfigurer.ConfigureServices(services, this.Configuration, this._env);
+            #endregion
+
 
             #region 依赖注入
             //微软自带
