@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\My.D3.Util\My.D3.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Sealee.SqlHelper">
       <HintPath>..\..\_commonfile\Sealee.SqlHelper.dll</HintPath>
     </Reference>

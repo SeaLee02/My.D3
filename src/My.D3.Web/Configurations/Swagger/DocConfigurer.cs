@@ -29,6 +29,8 @@ namespace My.D3.Configurations
             {
                 services.AddSwaggerGen(options =>
                 {
+
+                    options.SwaggerDoc("My", new Info { Title = "框架api" });
                     options.SwaggerDoc("T1", new Info { Title = "测试" });
                     options.SwaggerDoc("T2", new Info { Title = "真棒" });
 
@@ -66,10 +68,6 @@ namespace My.D3.Configurations
                     xmlCommentsPath = Path.Combine(Server.BinPath, "My.D3.xml");
                     options.IncludeXmlComments(xmlCommentsPath, true);
 
-                    //string path = System.AppDomain.CurrentDomain.BaseDirectory;
-                    //string _xmlPath = string.Format("{0}/bin/My.D3.xml", path);
-                    //options.IncludeXmlComments(_xmlPath, true);
-
                     xmlCommentsPath = Path.Combine(Server.BinPath, "My.D3.Entity.xml");
                     options.IncludeXmlComments(xmlCommentsPath, true);
                 });
@@ -95,6 +93,7 @@ namespace My.D3.Configurations
                 app.UseSwaggerUI(options =>
                 {
                     options.RoutePrefix = "api/doc";
+                    options.SwaggerEndpoint("/api/doc/My/swagger.json", "框架api");
                     options.SwaggerEndpoint("/api/doc/T1/swagger.json", "你真棒");
                     options.SwaggerEndpoint("/api/doc/T2/swagger.json", "可以的");
                     options.IndexStream = () => Assembly.GetExecutingAssembly()

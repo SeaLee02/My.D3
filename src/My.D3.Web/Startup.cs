@@ -26,6 +26,11 @@ namespace My.D3.Web
     {
         public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+               .SetBasePath(hostingEnvironment.ContentRootPath)
+               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+               .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true);
+
             Configuration = configuration;
             this._env = hostingEnvironment;
         }
