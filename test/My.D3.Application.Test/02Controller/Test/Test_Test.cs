@@ -1,27 +1,30 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using My.D3.Application.PublicService.AppServices.Enum;
-using My.D3.Web;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Hosting;
+using My.D3.Web;
+using My.D3.Application.PublicService.AppServices.Enum;
+using Newtonsoft.Json;
+using System.Text;
+using Microsoft.AspNetCore;
 
 namespace My.D3.Application.Test
 {
+    /// <summary>
+    /// 继承测试  测试控制器
+    /// </summary>
     public class Test_Test
     {
-        public HttpClient Client { get; }
+        private readonly HttpClient _client;
         public Test_Test()
         {
-            var bulid = WebHost.CreateDefaultBuilder()..UseStartup<Startup>();
-            var server = new TestServer(bulid);
-            Client = server.CreateClient();
+            //需要修改连接到数据
+            var server = new TestServer(WebHost.CreateDefaultBuilder().UseContentRoot(@"E:\Code\DotnetCli\DemoD3\My.D3\src\My.D3.Web")
+               .UseEnvironment("Development")
+               .UseStartup<Startup>());
+            _client = server.CreateClient();
         }
 
         /// <summary>
@@ -32,8 +35,6 @@ namespace My.D3.Application.Test
         [Fact]
         public async Task Test()
         {
-
-
             EnumInDto inDto = new EnumInDto()
             {
                 EnumTypeName = "SexTypeEnum",
@@ -41,9 +42,9 @@ namespace My.D3.Application.Test
             };
             string json = JsonConvert.SerializeObject(inDto);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await _client.PostAsync("/api/PublicService/GetEnumArray", content);
+            string bb = await result.Content.ReadAsStringAsync();
 
-            //var Client.PostAsync();
-            HttpResponseMessage result = await Client.PostAsync("/api/PublicService/GetEnumArray", content);
             string aa = "222";
         }
 

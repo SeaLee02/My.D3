@@ -14,7 +14,7 @@
     /// 公共接口
     /// </summary>
     [MyVersion("My")]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PublicServiceController : ControllerBase
     {
@@ -38,7 +38,7 @@
         /// <param name="inDto">获取枚举描述输入dto</param>
         /// <returns>数据枚举描述集合</returns>
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("GetEnumArray")]
         public async Task<List<EnumOutDto>> GetEnumArray(EnumInDto inDto)
         {
             var result = await this._enumAppService.GetEnumArray(inDto);

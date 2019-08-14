@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\swagger\ui\Index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 

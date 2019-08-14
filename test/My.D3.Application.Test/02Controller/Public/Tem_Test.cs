@@ -10,6 +10,7 @@
 
 //namespace My.D3.Application.Test
 //{
+///单元测试
 //    public class Tem_Test
 //    {
 //        private readonly Mock<IEnumAppService> mockBlogSev = new Mock<IEnumAppService>();

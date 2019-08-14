@@ -57,6 +57,7 @@ namespace My.D3.Web
 
             #region 连接数据库
             //连接数据
+            string aa = Configuration["ConnectionStrings:SqlServerConnection"];
             string path = Configuration.GetConnectionString("SqlServerConnection");
             services.AddDbContext<MyDbContext>(options => options.UseSqlServer(path));
             #endregion
