@@ -19,8 +19,9 @@ using My.D3.Application.Repositories;
 using My.D3.Application.Repositories.Demo;
 using My.D3.Configurations;
 using My.D3.DataAccess.Framework;
+using My.D3.Util.Web;
 
-namespace My.D3.Web
+namespace My.D3
 {
     public class Startup
     {
@@ -41,6 +42,7 @@ namespace My.D3.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            Server.ContentRootPath = this._env.ContentRootPath;
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -59,7 +61,8 @@ namespace My.D3.Web
             //连接数据
             string aa = Configuration["ConnectionStrings:SqlServerConnection"];
             string path = Configuration.GetConnectionString("SqlServerConnection");
-            services.AddDbContext<MyDbContext>(options => options.UseSqlServer(path));
+            services.AddDbContext<MyDbContext>
+                (options => options.UseSqlServer(path));
             #endregion
 
             #region SwaggerUI

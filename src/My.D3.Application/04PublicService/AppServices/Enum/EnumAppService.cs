@@ -6,6 +6,8 @@
     using System.Collections.Generic;
     using System.Reflection;
     using System.Threading.Tasks;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// 枚举接口服务
@@ -47,7 +49,6 @@
         public async Task<List<EnumOutDto>> GetEnumArray(EnumInDto inDto)
         {
             var db = this._dbContextProvider.GetDbContext();
-
             string enumType = $"My.D3.Entity.{inDto.Module}.{inDto.EnumTypeName}";
             Assembly autoAssembly = Assembly.Load("My.D3.Entity");
             Type type = autoAssembly.GetType(enumType);

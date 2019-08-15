@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace My.D3.Web.Controllers
+namespace My.D3.Controllers
 {
     public class HomeController : Controller
     {

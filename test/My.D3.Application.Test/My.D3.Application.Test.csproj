@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
@@ -23,7 +24,38 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\My.D3.Web\My.D3.csproj" />
+    <None Include="TestDatas\DataInit\01Demo\DataInit_Demo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataInit_Demo.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\My.D3\My.D3.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestDatas\DataInit\01Demo\DataInit_Demo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataInit_Demo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Framework\T4\DataInit.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="TestDatas\DataInit\01Demo\DataInit_Demo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataInit_Demo.cs</LastGenOutput>
+      <LastOutputs>.\DataInit_Demo.cs</LastOutputs>
+    </None>
   </ItemGroup>
 
 </Project>

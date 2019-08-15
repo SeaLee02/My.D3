@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using My.D3.Web;
+using My.D3;
 using System;
 using System.Collections.Generic;
 using System.IO;

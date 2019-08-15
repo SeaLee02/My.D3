@@ -1,0 +1,56 @@
+﻿<#+
+// <copyright file="DataInit.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class DataInit : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public DataInit(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+
+	public override string TransformText()
+	{
+#>
+namespace <#=_config.NameSpace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using My.D3.Application.Test.TestDatas.DataInit;
+    using My.D3.DataAccess.Framework;
+    using My.D3.Entity.<#=StringUtil.GetModuleName(_config.NameSpace) #>;
+
+    /// <summary>
+    ///  <#=_model.TableDesc #>数据初始化（仅供单元测试使用,数据是存储在内存中的）
+    /// </summary>
+    public class <#=StringUtil.ToCase(_model.TableName) #>_DataInit : BaseInit
+    {
+        /// <summary>
+        /// <#=_model.TableDesc #>数据初始化
+        /// </summary>
+        /// <param name="context">内存中的数据</param>
+        public override void Excute(MyDbContext context)
+        {
+            List<<#=StringUtil.ToCase(_model.TableName) #>Entity> entitys = new List<<#=StringUtil.ToCase(_model.TableName) #>Entity>()
+            {
+                //new <#=StringUtil.ToCase(_model.TableName) #>Entity()
+                //{
+                //}
+            };
+            context.<#=StringUtil.ToCase(_model.TableName) #>.AddRange(entitys);
+            context.SaveChanges();
+        }
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

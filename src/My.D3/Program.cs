@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Autofac.Extensions.DependencyInjection;
 
-namespace My.D3.Web
+namespace My.D3
 {
     public class Program
     {
