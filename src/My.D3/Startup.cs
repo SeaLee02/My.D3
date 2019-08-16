@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using My.D3.Application.AppServices.Demo;
 using My.D3.Application.Repositories;
 using My.D3.Application.Repositories.Demo;
@@ -49,9 +55,51 @@ namespace My.D3
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddAuthentication(o => o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
+            //.AddCookie(o =>
+            //{
+            //    o.ExpireTimeSpan = new TimeSpan(0, 0, 30);
+            //    o.Events.OnRedirectToLogin = (context) =>
+            //    {
+            //        context.Response.StatusCode = 401;
+            //        return Task.CompletedTask;
+            //    };
+            //});
+
+
+
+            services.Configure<MvcOptions>(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("admin123456")),
+                    ValidIssuer = "issuer",
+                    ValidAudience = "audience",
+
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        // 如果过期，则把<是否过期>添加到，返回头信息中
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
 
             #region AutoMapper
             services.AddAutoMapper(typeof(Startup));
@@ -125,6 +173,9 @@ namespace My.D3
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
+            //app.UseAuthentication();
+            //app.au();
 
             app.UseMvc(routes =>
             {

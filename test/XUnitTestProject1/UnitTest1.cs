@@ -30,5 +30,14 @@ namespace XUnitTestProject1
             string bb = await result.Content.ReadAsStringAsync();
             string asd = "";
         }
+
+
+        [Fact]
+        public async Task Test2()
+        {
+            HttpResponseMessage result = await _fixture.Client.GetAsync("/api/test/Test");
+            string bb = await result.Content.ReadAsStringAsync();
+            string aa = "";
+        }
     }
 }

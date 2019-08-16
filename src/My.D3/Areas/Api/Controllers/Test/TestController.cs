@@ -11,6 +11,9 @@ using My.D3.Entity.Demo;
 using My.D3.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using My.D3.Configurations;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace My.D3.Areas.Api.Controllers
 {
@@ -20,22 +23,36 @@ namespace My.D3.Areas.Api.Controllers
     public class TestController : ControllerBase
     {
         private readonly IMyDemoStudentAppService _myDemoStudentAppService;
-        private readonly MyDbContext _db;
 
         public TestController(IMyDemoStudentAppService myDemoStudentAppService, MyDbContext db)
         {
-            _db = db;
             this._myDemoStudentAppService = myDemoStudentAppService;
         }
 
+        /// <summary>
+        /// 测试授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Login")]
+        public async Task Login()
+        {
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
+            identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+
+            var principal = new ClaimsPrincipal(identity);
+
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
+        }
+
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {
-            List<DemoStudentEntity> AA = await _db.DemoStudent.AsNoTracking().ToListAsync();
-            DbSet<DemoStudentEntity> dd = _db.Set<DemoStudentEntity>();
-
             var list = await this._myDemoStudentAppService.GetAllListDto();
             string aa = "";
             return await Task.FromResult(Ok(list));
