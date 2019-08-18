@@ -19,6 +19,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using My.D3.Util.Configuration;
 
 namespace XUnitTestProject1
 {
@@ -26,12 +29,17 @@ namespace XUnitTestProject1
     {
         public Startup1(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-               .SetBasePath(hostingEnvironment.ContentRootPath)
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-               .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true);
+            //IConfigurationBuilder builder = new ConfigurationBuilder()
+            //   .SetBasePath(hostingEnvironment.ContentRootPath)
+            //   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //   .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true);
 
-            Configuration = configuration;
+            Server.ContentRootPath = Path.GetFullPath(@"..\..\..\..\..\") + @"src\My.D3";
+
+            // 初始化config的配置为了读取appjson文件
+            IConfigurationRoot configuration2 = AppConfigurationHelper.Get(Server.ContentRootPath);
+
+            Configuration = configuration2;
             this._env = hostingEnvironment;
         }
 
@@ -49,16 +57,54 @@ namespace XUnitTestProject1
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            //jwt授权
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("sdfsdfsrty45634kkhllghtdgdfss345t678fs")),
+                    ValidateIssuer = true,
+                    ValidIssuer = "issuer",
+                    ValidateAudience = true,
+                    ValidAudience = "audience",
+
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        // 如果过期，则把<是否过期>添加到，返回头信息中
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
+
 
             #region 连接数据库
             //连接数据
             string aa = Configuration["ConnectionStrings:SqlServerConnection"];
             string path = Configuration.GetConnectionString("SqlServerConnection");
-            services.AddDbContext<MyDbContext>
-                (options => options.UseInMemoryDatabase("My.D3"));
+            services.AddDbContext<MyDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("My.D3");
+                //初始化数据
+                var dd = options.Options as DbContextOptions<MyDbContext>;
+                MyDbContext myDb = new MyDbContext(dd);
+                new TestDataBuilder(myDb).Build();
+            });
+
             #endregion
 
-
+            #region AutoMapper
+            services.AddAutoMapper(typeof(Startup));
+            #endregion
 
             #region 依赖注入
             //微软自带
@@ -75,6 +121,7 @@ namespace XUnitTestProject1
             var assemblysServices = Assembly.Load("My.D3.Application");
             builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
             //注册上下文
+            builder.RegisterType<MyDbContext>().As<MyDbContext>().InstancePerLifetimeScope();
             builder.RegisterType<SimpleDbContextProvider<MyDbContext>>().As<IDbContextProvider<MyDbContext>>().InstancePerLifetimeScope();
 
             //将services填充到Autofac容器生成器中
@@ -115,7 +162,7 @@ namespace XUnitTestProject1
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

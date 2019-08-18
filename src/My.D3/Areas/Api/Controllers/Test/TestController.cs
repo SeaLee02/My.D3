@@ -14,6 +14,10 @@ using My.D3.Configurations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace My.D3.Areas.Api.Controllers
 {
@@ -22,27 +26,64 @@ namespace My.D3.Areas.Api.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly IMyDemoStudentAppService _myDemoStudentAppService;
+        private readonly IDemoStudentAppService _demoStudentAppService;
+        private readonly MyDbContext _db;
 
-        public TestController(IMyDemoStudentAppService myDemoStudentAppService, MyDbContext db)
+        public TestController(IDemoStudentAppService demoStudentAppService, MyDbContext db)
         {
-            this._myDemoStudentAppService = myDemoStudentAppService;
+            this._demoStudentAppService = demoStudentAppService;
+            this._db = db;
         }
 
         /// <summary>
         /// 测试授权
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("Login")]
-        public async Task Login()
+        public async Task<string> Login()
         {
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            try
+            {
+                var now = DateTime.UtcNow;
+                var issuer = "issuer";
+                var audience = "audience";
 
-            identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+                ClaimsIdentity identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
+                List<Claim> claims = identity.Claims.ToList();
+                claims.AddRange(new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub,"sealee"),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+                });
 
-            var principal = new ClaimsPrincipal(identity);
+                // var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Name, "sealee"));
+                claims.Add(new Claim(ClaimTypes.Role, "admin"));
 
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
+                //ClaimsIdentity identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
+                //identity.AddClaim(new Claim(ClaimTypes.Name, "admin"));
+                //identity.AddClaim(new Claim("Role", "admin"));
+                var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("sdfsdfsrty45634kkhllghtdgdfss345t678fs"));
+                var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+                var jwt = new JwtSecurityToken(
+                   issuer: issuer,
+                   audience: audience,
+                   claims: claims,
+                   notBefore: now,
+                   expires: DateTime.Now.Add(TimeSpan.FromHours(1)),
+                   signingCredentials: signingCredentials
+               );
+                // 生成 Token
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                return await Task.FromResult(encodedJwt);
+            }
+            catch (Exception ex)
+            {
+
+                return await Task.FromResult(ex.Message);
+            }
         }
 
         /// <summary>
@@ -53,7 +94,29 @@ namespace My.D3.Areas.Api.Controllers
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {
-            var list = await this._myDemoStudentAppService.GetAllListDto();
+            DemoStudentEntity demoStudentEntity = new DemoStudentEntity();
+            demoStudentEntity.StuName = "ppp";
+            demoStudentEntity.IsDeleted = 0;
+            _db.DemoStudent.Add(demoStudentEntity);
+            await _db.SaveChangesAsync();
+
+            var list = await this._demoStudentAppService.GetAllListDto();
+            string aa = "";
+            return await Task.FromResult(Ok(list));
+        }
+
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("Test3")]
+        public async Task<IActionResult> Test3()
+        {
+
+
+
+            var list = await this._demoStudentAppService.GetAllListDto();
             string aa = "";
             return await Task.FromResult(Ok(list));
         }

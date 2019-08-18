@@ -26,6 +26,7 @@ using My.D3.Application.Repositories.Demo;
 using My.D3.Configurations;
 using My.D3.DataAccess.Framework;
 using My.D3.Util.Web;
+using StackExchange.Profiling;
 
 namespace My.D3
 {
@@ -69,20 +70,17 @@ namespace My.D3
 
 
 
-            services.Configure<MvcOptions>(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-
+            //jwt授权
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("admin123456")),
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("sdfsdfsrty45634kkhllghtdgdfss345t678fs")),
+                    ValidateIssuer = true,
                     ValidIssuer = "issuer",
+                    ValidateAudience = true,
                     ValidAudience = "audience",
 
                 };
@@ -118,6 +116,15 @@ namespace My.D3
             #endregion
 
 
+            //监控sql,性能
+            services.AddMiniProfiler(options =>
+            {
+                //  /profiler/results-index   /profiler/results     /profiler/results-list
+                options.RouteBasePath = "/profiler";
+                options.PopupRenderPosition = RenderPosition.BottomLeft;
+                //options.
+            }).AddEntityFramework();
+
             #region 依赖注入
             //微软自带
             //services.AddScoped<IDbContextProvider<MyDbContext>, SimpleDbContextProvider<MyDbContext>>();
@@ -130,7 +137,8 @@ namespace My.D3
             var builder = new ContainerBuilder();
             var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
             var servicesDllFile = Path.Combine(basePath, "My.D3.Application.dll");
-            var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            // var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            var assemblysServices = Assembly.Load("My.D3.Application");
             builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
             //注册上下文
             builder.RegisterType<SimpleDbContextProvider<MyDbContext>>().As<IDbContextProvider<MyDbContext>>().InstancePerLifetimeScope();
@@ -174,6 +182,7 @@ namespace My.D3
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseMiniProfiler();
             //app.UseAuthentication();
             //app.au();
 

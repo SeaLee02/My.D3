@@ -44,18 +44,18 @@ var abp = abp || {};
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    var responseJSON = JSON.parse(xhr.responseText);
-                    var result = responseJSON.result;
-                    var expireDate = new Date(Date.now() + (result.expireInSeconds * 1000));
-                    abp.auth.setToken(result.accessToken, expireDate);
-                    callback();   
+                    //var responseJSON = JSON.parse(xhr.responseText);
+                    //var result = responseJSON.result;
+                    var expireDate = new Date(Date.now() + (18000 * 1000));
+                    abp.auth.setToken(xhr.responseText, expireDate);
+                    callback();
                 } else {
                     alert('Login failed !');
                 }
             }
         };
 
-        xhr.open('POST', '/api/services/app/TokenAuthService/Authenticate', true);
+        xhr.open('get', '/api/test/login', true);
         xhr.setRequestHeader('Abp.TenantId', tenantId);
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.send("{" + "usernameOrEmailAddress:'" + usernameOrEmailAddress + "'," + "password:'" + password + "'}");
@@ -169,7 +169,7 @@ var abp = abp || {};
         var authorizeButton = document.createElement('button');
         authorizeButton.className = 'btn modal-btn auth authorize button';
         authorizeButton.innerText = 'Login';
-        authorizeButton.onclick = function() {
+        authorizeButton.onclick = function () {
             abp.swagger.login(loginCallback);
         };
         authBtnWrapper.appendChild(authorizeButton);
@@ -195,7 +195,7 @@ var abp = abp || {};
         input.id = id;
         input.type = type ? type : 'text';
         input.style.width = '100%';
-       
+
 
         section.appendChild(input);
     }

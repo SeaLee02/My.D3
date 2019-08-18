@@ -1,7 +1,12 @@
 using My.D3.Application.PublicService.AppServices.Enum;
+using My.D3.DataAccess.Framework;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,6 +16,7 @@ namespace XUnitTestProject1
     public class UnitTest1 : IClassFixture<TestServerFixture>
     {
         private readonly TestServerFixture _fixture;
+
         public UnitTest1(TestServerFixture fixture)
         {
             _fixture = fixture;
@@ -19,6 +25,7 @@ namespace XUnitTestProject1
         [Fact]
         public async Task Test1()
         {
+
             EnumInDto inDto = new EnumInDto()
             {
                 EnumTypeName = "SexTypeEnum",
@@ -30,6 +37,8 @@ namespace XUnitTestProject1
             string bb = await result.Content.ReadAsStringAsync();
             string asd = "";
         }
+
+
 
 
         [Fact]
