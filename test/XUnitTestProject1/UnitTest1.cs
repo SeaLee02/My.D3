@@ -25,7 +25,6 @@ namespace XUnitTestProject1
         [Fact]
         public async Task Test1()
         {
-
             EnumInDto inDto = new EnumInDto()
             {
                 EnumTypeName = "SexTypeEnum",
@@ -48,5 +47,16 @@ namespace XUnitTestProject1
             string bb = await result.Content.ReadAsStringAsync();
             string aa = "";
         }
+
+
+        [Fact]
+        public async Task Test3()
+        {
+            HttpResponseMessage result = await _fixture.Client.GetAsync("/api/test/Test4");
+            string bb = await result.Content.ReadAsStringAsync();
+            string aa = "";
+        }
+
+
     }
 }

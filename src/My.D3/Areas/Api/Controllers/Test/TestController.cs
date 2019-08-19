@@ -99,9 +99,7 @@ namespace My.D3.Areas.Api.Controllers
             demoStudentEntity.IsDeleted = 0;
             _db.DemoStudent.Add(demoStudentEntity);
             await _db.SaveChangesAsync();
-
             var list = await this._demoStudentAppService.GetAllListDto();
-            string aa = "";
             return await Task.FromResult(Ok(list));
         }
 
@@ -113,12 +111,20 @@ namespace My.D3.Areas.Api.Controllers
         [HttpGet("Test3")]
         public async Task<IActionResult> Test3()
         {
-
-
-
             var list = await this._demoStudentAppService.GetAllListDto();
-            string aa = "";
             return await Task.FromResult(Ok(list));
         }
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Test4")]
+        public async Task<IActionResult> Test4()
+        {
+            var list = await this._demoStudentAppService.GetAllListDto();
+            return await Task.FromResult(Ok(list));
+        }
+
+
     }
 }

@@ -181,10 +181,8 @@ namespace My.D3
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseAuthentication();
-            app.UseMiniProfiler();
             //app.UseAuthentication();
-            //app.au();
+            app.UseMiniProfiler();
 
             app.UseMvc(routes =>
             {
