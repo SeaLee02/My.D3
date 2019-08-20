@@ -31,9 +31,7 @@ namespace XUnitTestProject1
             Client = _testServer.CreateClient();
             string Authorization = Token();
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Authorization);
-
         }
-
         private string Token()
         {
             var now = DateTime.UtcNow;
@@ -47,15 +45,10 @@ namespace XUnitTestProject1
                     new Claim(JwtRegisteredClaimNames.Sub,"sealee"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
-                });
+             });
 
-            // var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, "sealee"));
             claims.Add(new Claim(ClaimTypes.Role, "admin"));
-
-            //ClaimsIdentity identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-            //identity.AddClaim(new Claim(ClaimTypes.Name, "admin"));
-            //identity.AddClaim(new Claim("Role", "admin"));
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("sdfsdfsrty45634kkhllghtdgdfss345t678fs"));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var jwt = new JwtSecurityToken(
@@ -76,6 +69,8 @@ namespace XUnitTestProject1
         {
             Client.Dispose();
             _testServer.Dispose();
+
         }
+
     }
 }

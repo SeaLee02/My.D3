@@ -57,18 +57,6 @@ namespace My.D3
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddAuthentication(o => o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(o =>
-            //{
-            //    o.ExpireTimeSpan = new TimeSpan(0, 0, 30);
-            //    o.Events.OnRedirectToLogin = (context) =>
-            //    {
-            //        context.Response.StatusCode = 401;
-            //        return Task.CompletedTask;
-            //    };
-            //});
-
-
 
             //jwt授权
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -181,7 +169,7 @@ namespace My.D3
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseMiniProfiler();
 
             app.UseMvc(routes =>

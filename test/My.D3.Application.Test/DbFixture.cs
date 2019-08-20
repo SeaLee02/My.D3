@@ -26,12 +26,9 @@ namespace My.D3.Application.Test
         public DbFixture()
         {
             var builder = new ContainerBuilder();
-            var option = new DbContextOptionsBuilder<MyDbContext>().
-                UseSqlServer("server=.;database=DD;uid=sa;pwd=123")
-                .Options; //连接数据库
             //内存数据库
-            var option2 = new DbContextOptionsBuilder<MyDbContext>().UseInMemoryDatabase("My.D3").Options;
-            MyDbContext context = new MyDbContext(option2);
+            var option = new DbContextOptionsBuilder<MyDbContext>().UseInMemoryDatabase("My.D3").Options;
+            MyDbContext context = new MyDbContext(option);
 
             //InitializeDbForTests  初始化测试数据
             new TestDataBuilder(context).Build();

@@ -97,6 +97,7 @@ namespace XUnitTestProject1
                 //初始化数据
                 var dd = options.Options as DbContextOptions<MyDbContext>;
                 MyDbContext myDb = new MyDbContext(dd);
+                //初始化数据
                 new TestDataBuilder(myDb).Build();
             });
 
