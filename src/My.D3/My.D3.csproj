@@ -32,4 +32,27 @@
     <ProjectReference Include="..\My.D3.Application\My.D3.Application.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="Areas\Api\Controllers\01Demo\APIDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>APIDemo.cs</LastGenOutput>
+      <LastOutputs>.\APIDemo.cs</LastOutputs>
+    </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Update="Areas\Api\Controllers\01Demo\APIDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>APIDemo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

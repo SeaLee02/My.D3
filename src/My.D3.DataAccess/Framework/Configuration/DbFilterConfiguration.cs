@@ -47,15 +47,15 @@
                 BinaryExpression body = Expression.Equal(
                     Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(byte) }, parameter, Expression.Constant("IsDeleted")),
                Expression.Constant(defaultValue));
-                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
-                //if (entityType.Name.ToLower().Contains("view"))
-                //{
-                //    modelBuilder.Query(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
-                //}
-                //else
-                //{
                 //modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
-                //}
+                if (entityType.Name.ToLower().Contains("view"))
+                {
+                    modelBuilder.Query(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
+                }
+                else
+                {
+                    modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
+                }
             }
         }
     }

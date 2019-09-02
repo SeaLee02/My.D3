@@ -178,12 +178,13 @@ namespace My.D3.Application.Repositories
         /// <returns>展示的Dto</returns>
         public virtual async Task<TEntityDto> UpdateByDtoAsync(TEntityDto input)
         {
+            var db = this._dbContextProvider.GetDbContext();
             // 找出实体
             var oldEntity = await base.GetAsync(input.Id);
-
             // 对比变化 只更新不为空的属性值
             var entity = input.ObjectMapTo(oldEntity);
             entity = await base.UpdateAsync(entity);
+            await db.SaveChangesAsync();
             return _mapper.Map<TEntityDto>(entity);
         }
 
@@ -195,10 +196,12 @@ namespace My.D3.Application.Repositories
         /// <returns>任务</returns>
         public virtual async Task BatchDeleteAsync(TPrimaryKey[] ids)
         {
+            var db = this._dbContextProvider.GetDbContext();
             foreach (var id in ids)
             {
                 await this.DeleteAsync(id);
             }
+            await db.SaveChangesAsync();
         }
 
 

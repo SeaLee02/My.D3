@@ -12,27 +12,27 @@ namespace My.D3.DataAccess.Framework
 		/// <summary>
         /// 
         /// </summary>
-		public DbSet<ViewDemoClass> ViewDemoClass { get; set; }
+		public DbQuery<ViewDemoClass> ViewDemoClass { get; set; }
 	 
 		/// <summary>
         /// 
         /// </summary>
-		public DbSet<ViewDemoCourse> ViewDemoCourse { get; set; }
+		public DbQuery<ViewDemoCourse> ViewDemoCourse { get; set; }
 	 
 		/// <summary>
         /// 
         /// </summary>
-		public DbSet<ViewDemoSchool> ViewDemoSchool { get; set; }
+		public DbQuery<ViewDemoSchool> ViewDemoSchool { get; set; }
 	 
 		/// <summary>
         /// 
         /// </summary>
-		public DbSet<ViewDemoStudent2Course> ViewDemoStudent2Course { get; set; }
+		public DbQuery<ViewDemoStudent2Course> ViewDemoStudent2Course { get; set; }
 	 
 		/// <summary>
         /// 学生表视图
         /// </summary>
-		public DbSet<ViewDemoStudent> ViewDemoStudent { get; set; }
+		public DbQuery<ViewDemoStudent> ViewDemoStudent { get; set; }
 	 
 	}
 }

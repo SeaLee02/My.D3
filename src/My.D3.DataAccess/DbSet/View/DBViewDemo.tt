@@ -30,7 +30,7 @@ namespace My.D3.DataAccess.Framework
 		/// <summary>
         /// <#=view.ViewDesc #>
         /// </summary>
-		public DbSet<<#= StringUtil.ToCase(view.ViewName)#>> <#= StringUtil.ToCase(view.ViewName)#> { get; set; }
+		public DbQuery<<#= StringUtil.ToCase(view.ViewName)#>> <#= StringUtil.ToCase(view.ViewName)#> { get; set; }
 	<#    }#> 
 	}
 }

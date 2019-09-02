@@ -11,6 +11,7 @@ using My.D3.Configurations;
 using My.D3.DataAccess.Framework;
 using My.D3.Entity.Demo;
 using My.D3.Entity.Demo.Dto;
+using My.D3.Entity.Demo.View;
 
 namespace My.D3.Areas.Api.Controllers
 {
@@ -39,7 +40,8 @@ namespace My.D3.Areas.Api.Controllers
         [HttpGet("Test")]
         public async Task<List<DemoStudentDto>> Test()
         {
-
+            var qwe = _db.Query<ViewDemoSchool>().FirstOrDefault();
+            var dd22 = _db.Query<ViewDemoStudent>().FirstOrDefault();
             DbSet<DemoStudentEntity> dd = _db.Set<DemoStudentEntity>();
 
             var list = await this._demoStudentAppService.GetAllListDto();
