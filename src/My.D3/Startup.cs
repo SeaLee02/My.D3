@@ -103,7 +103,7 @@ namespace My.D3
             DocConfigurer.ConfigureServices(services, this.Configuration, this._env);
             #endregion
 
-
+            #region Profiler 性能监控
             //监控sql,性能
             services.AddMiniProfiler(options =>
             {
@@ -112,6 +112,7 @@ namespace My.D3
                 options.PopupRenderPosition = RenderPosition.BottomLeft;
                 //options.
             }).AddEntityFramework();
+            #endregion
 
             #region 依赖注入
             //微软自带
@@ -123,9 +124,6 @@ namespace My.D3
 
             //实例化 AutoFac  容器   
             var builder = new ContainerBuilder();
-            var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
-            var servicesDllFile = Path.Combine(basePath, "My.D3.Application.dll");
-            // var assemblysServices = Assembly.LoadFrom(servicesDllFile);
             var assemblysServices = Assembly.Load("My.D3.Application");
             builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
             //注册上下文

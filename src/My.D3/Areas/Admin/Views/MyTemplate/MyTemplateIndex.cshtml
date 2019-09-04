@@ -1,0 +1,229 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Index_Layout.cshtml";
+}
+@section styles{
+}
+@section scripts{
+
+    <script>
+        'use staic';
+        //模块引入
+        layui.config({
+            base: '/js/'  //你存放新模块的目录，注意，不是layui的模块目录
+        }).use('my'); //加载入口
+
+        layui.use(['table', 'form', 'element', 'laydate'], function () {
+            var table = layui.table, form = layui.form, element = layui.element, laydate = layui.laydate;
+            //展示已知数据
+            table.render({
+                elem: '#table'
+                //, url: '/api/fi/skdj/GetList' //数据接口
+                //, page: { limit: 10, theme: '#1E9FFF' } //开启分页
+                //, method: 'post'
+                //, where: tableWhere
+                //, contentType: 'application/json'
+                , size: 'sm'
+                //,height: 'full-145'
+                , loading: true  //分页有加载图标
+
+                , cols: [[ //标题栏
+                    { checkbox: true }
+                    , { field: 'id', title: 'ID', width: 80, sort: true }
+                    , { field: 'username', title: '用户名', width: 120 }
+                    , { field: 'email', title: '邮箱', minWidth: 150 }
+                    , { field: 'sign', title: '签名', minWidth: 160 }
+                    , { field: 'sex', title: '性别', width: 80 }
+                    , { field: 'city', title: '城市', width: 100 }
+                    , { field: 'experience', title: '积分', width: 80, sort: true }
+                ]]
+                , data: [{
+                    "id": "10001"
+                    , "username": "杜甫"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "116"
+                    , "ip": "192.168.0.8"
+                    , "logins": "108"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10002"
+                    , "username": "李白"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "12"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                    , "LAY_CHECKED": true
+                }, {
+                    "id": "10003"
+                    , "username": "王勃"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "65"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10004"
+                    , "username": "贤心"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "666"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10005"
+                    , "username": "贤心"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "86"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10006"
+                    , "username": "贤心"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "12"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10007"
+                    , "username": "贤心"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "16"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }, {
+                    "id": "10008"
+                    , "username": "贤心"
+                    , "email": "xianxin@layui.com"
+                    , "sex": "男"
+                    , "city": "浙江杭州"
+                    , "sign": "人生恰似一场修行"
+                    , "experience": "106"
+                    , "ip": "192.168.0.8"
+                    , "logins": "106"
+                    , "joinTime": "2016-10-14"
+                }]
+            });
+
+        });
+    </script>
+}
+<div class="layui-fluid">
+
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-collapse" lay-accordion style="margin-bottom:10px;">
+                <div class="layui-colla-item" style="position:relative;">
+                    <h2 class="layui-colla-title">查找</h2>
+                    <div class="layui-colla-content layui-show">
+                        <form class="layui-form" id="mySearchForm" onsubmit="return false">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">收款单号</label>
+                                    <div class="layui-input-block">
+                                        <input name="SKDH" class="layui-input" data-name="SKDH" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">客户名称</label>
+                                    <div class="layui-input-block">
+                                        <input name="HBMC" class="layui-input" data-name="HBMC" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">客户名称</label>
+                                    <div class="layui-input-block">
+                                        <input name="HBMC" class="layui-input" data-name="HBMC" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">客户名称</label>
+                                    <div class="layui-input-block">
+                                        <input name="HBMC" class="layui-input" data-name="HBMC" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">客户名称</label>
+                                    <div class="layui-input-block">
+                                        <input name="HBMC" class="layui-input" data-name="HBMC" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">客户名称</label>
+                                    <div class="layui-input-block">
+                                        <input name="HBMC" class="layui-input" data-name="HBMC" data-op="eq" data-datatype="nvarchar" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div style="position:absolute;right:20px; bottom:10px;">
+                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="searchform()">
+                                <i class="layui-icon layui-icon-search"></i>
+                                查询(enter)
+                            </a>
+                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="$('#mySearchForm').form('clear')">
+                                <i class="layui-icon layui-icon-return"></i>
+                                清空(esc)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm layui-btn-primary" onclick="add()">
+                    <i class="layui-icon layui-icon-add-1"></i>
+                    新增
+                </a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm layui-btn-normal" onclick="add()">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    导入
+                </a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm layui-btn-normal" onclick="add()">
+                    <i class="layui-icon layui-icon-edit"></i>
+                    编辑
+                </a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm  layui-btn-danger" onclick="add()">
+                    <i class="layui-icon layui-icon-delete"></i>
+                    删除
+                </a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="add()">
+                    <i class="layui-icon layui-icon-template-1"></i>
+                    导出
+                </a>
+                <a href="javascript:void(0)" class="layui-btn layui-btn-sm  layui-btn-warm" onclick="add()">
+                    <i class="layui-icon layui-icon-refresh "></i>
+                    刷新
+                </a>
+            </div>
+            <table class="layui-table" id="table" lay-filter="tableFilter"></table>
+        </div>
+    </div>
+</div>
+

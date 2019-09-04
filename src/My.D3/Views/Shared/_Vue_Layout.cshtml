@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content='jquery,layui,vue,demo' />
+    <meta name="description" content='layui,vue' />
+    <title>Vue-Demo</title>
+    @{ await Html.RenderPartialAsync("~/Views/Partial/CommonCssVue.cshtml"); }
+
+    @{ await Html.RenderPartialAsync("~/Views/Partial/CommonJsVue.cshtml"); }
+
+    @RenderSection("styles", required: false)
+
+    @RenderSection("scripts", required: false)
+
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

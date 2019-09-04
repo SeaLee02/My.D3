@@ -1,0 +1,30 @@
+﻿<#+
+// <copyright file="AppServiceTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class EditCshtml : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public EditCshtml(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+	public override string TransformText()
+	{
+#>
+@{
+    ViewData["Title"] = "<#=_model.TableDesc #>编辑";
+    Layout =null;
+}
+@section styles{
+}
+@section scripts{
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

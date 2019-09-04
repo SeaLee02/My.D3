@@ -1,0 +1,73 @@
+﻿<#+
+// <copyright file="AppServiceTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class Controller : CSharpTemplate
+{
+     private DbTable _model;
+     private MyConfig _config;
+     public Controller(DbTable model,MyConfig config)
+     {
+         _model=model;
+         _config=config;
+     }
+	public override string TransformText()
+	{
+#>
+namespace <#=_config.NameSpace #>
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// <#=_model.TableDesc #>
+    /// </summary>
+    [Area("<#=_config.Version #>")]
+    public class <#=StringUtil.ToCase(_model.TableName) #>Controller : Controller
+    {
+        /// <summary>
+        /// [<#=_model.TableDesc #>]主页
+        /// </summary>
+        /// <returns>页面</returns>
+        public IActionResult <#=StringUtil.ToCase(_model.TableName) #>Index()
+        {
+            return base.View();
+        }
+
+        /// <summary>
+        /// [<#=_model.TableDesc #>]创建页
+        /// </summary>
+        /// <returns>页面对象</returns>
+        public IActionResult <#=StringUtil.ToCase(_model.TableName) #>Create()
+        {
+            return base.View();
+        }
+
+        /// <summary>
+        /// [<#=_model.TableDesc #>]编辑页
+        /// </summary>
+        /// <returns>页面对象</returns>
+        public IActionResult <#=StringUtil.ToCase(_model.TableName) #>Edit()
+        {
+            return base.View();
+        }
+
+        /// <summary>
+        /// [<#=_model.TableDesc #>]详情页
+        /// </summary>
+        /// <returns>页面对象</returns>
+        public IActionResult <#=StringUtil.ToCase(_model.TableName) #>Detail()
+        {
+            return base.View();
+        }
+    }
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

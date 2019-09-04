@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <ApplicationIcon>wwwroot\fav.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,6 +40,16 @@
       <LastGenOutput>APIDemo.cs</LastGenOutput>
       <LastOutputs>.\APIDemo.cs</LastOutputs>
     </None>
+    <None Update="Areas\Demo\Controllers\_ControllersDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_ControllersDemo.cs</LastGenOutput>
+      <LastOutputs>.\_ControllersDemo.cs</LastOutputs>
+    </None>
+    <None Update="Areas\Demo\Views\_ViewsDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>_ViewsDemo.cs</LastGenOutput>
+      <LastOutputs>.\_ViewsDemo.cs</LastOutputs>
+    </None>
   </ItemGroup>
 
 
@@ -53,14 +64,88 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>APIDemo.tt</DependentUpon>
     </Compile>
+    <Compile Update="Areas\Demo\Controllers\_ControllersDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ControllersDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Areas\Demo\Views\_ViewsDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ViewsDemo.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Views\" />
-    <Folder Include="Areas\Demo\Controllers\" />
-    <Folder Include="Areas\Demo\Views\" />
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Views\Partial\CommonCss.cshtml" />
+    <None Include="Views\Partial\CommonJs.cshtml" />
+    <None Include="wwwroot\lib\jquery-loadmask\jquery.loadmask.min.js" />
+    <None Include="wwwroot\lib\jquery\core.js" />
+    <None Include="wwwroot\lib\jquery\jquery.js" />
+    <None Include="wwwroot\lib\jquery\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\jquery.min.map" />
+    <None Include="wwwroot\lib\jquery\jquery.slim.js" />
+    <None Include="wwwroot\lib\jquery\jquery.slim.min.js" />
+    <None Include="wwwroot\lib\jquery\jquery.slim.min.map" />
+    <None Include="wwwroot\lib\jquery\jquery.tmpl.js" />
+    <None Include="wwwroot\lib\jquery\jquery.tmpl.min.js" />
+    <None Include="wwwroot\lib\layui\font\iconfont.svg" />
+    <None Include="wwwroot\lib\layui\font\iconfont.woff2" />
+    <None Include="wwwroot\lib\layui\layui.all.js" />
+    <None Include="wwwroot\lib\layui\layui.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\carousel.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\code.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\colorpicker.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\element.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\flow.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\form.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\jquery.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\laydate.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\layedit.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\layer.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\layim.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\laypage.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\laytpl.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\rate.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\slider.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\table.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\transfer.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\tree.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\upload.js" />
+    <None Include="wwwroot\lib\layui\lay\modules\util.js" />
+    <None Include="wwwroot\lib\lodash\lodash.js" />
+    <None Include="wwwroot\lib\lodash\lodash.min.js" />
+    <None Include="wwwroot\lib\moment\moment.min.js" />
+    <None Include="wwwroot\lib\util\MyAjax.js" />
+    <None Include="wwwroot\lib\util\MyHelper.js" />
+    <None Include="wwwroot\lib\util\MyUtil.js" />
+    <None Include="wwwroot\lib\vue-filter\vue-filters.js" />
+    <None Include="wwwroot\lib\vue-resource\README.md" />
+    <None Include="wwwroot\lib\vue-resource\vue-resource.common.js" />
+    <None Include="wwwroot\lib\vue-resource\vue-resource.esm.js" />
+    <None Include="wwwroot\lib\vue-resource\vue-resource.js" />
+    <None Include="wwwroot\lib\vue-resource\vue-resource.min.js" />
+    <None Include="wwwroot\lib\vue\vue.common.dev.js" />
+    <None Include="wwwroot\lib\vue\vue.common.js" />
+    <None Include="wwwroot\lib\vue\vue.common.prod.js" />
+    <None Include="wwwroot\lib\vue\vue.esm.browser.js" />
+    <None Include="wwwroot\lib\vue\vue.esm.browser.min.js" />
+    <None Include="wwwroot\lib\vue\vue.esm.js" />
+    <None Include="wwwroot\lib\vue\vue.js" />
+    <None Include="wwwroot\lib\vue\vue.min.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.common.dev.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.common.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.common.prod.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.esm.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.js" />
+    <None Include="wwwroot\lib\vue\vue.runtime.min.js" />
   </ItemGroup>
 
 </Project>
