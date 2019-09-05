@@ -170,6 +170,8 @@ namespace My.D3
             app.UseAuthentication();
             app.UseMiniProfiler();
 
+
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

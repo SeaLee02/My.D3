@@ -24,21 +24,21 @@ namespace My.D3.Util.Extensions
             return list;
         }
 
-        public static IEnumerable<MethodInfo> GetExtensionMethods(this Assembly assembly, string name)
-        {
-            return from type in assembly.GetTypes().Where(delegate (Type type)
-            {
-                if (!type.IsGenericType)
-                {
-                    return !type.IsNested;
-                }
-                return false;
-            })
-                   from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
-                   where method.IsDefined(typeof(ExtensionAttribute), false)
-                   where method.Name == name
-                   select method;
-        }
+        //public static IEnumerable<MethodInfo> GetExtensionMethods(this Assembly assembly, string name)
+        //{
+        //    return from type in assembly.GetTypes().Where(delegate (Type type)
+        //    {
+        //        if (!type.IsGenericType)
+        //        {
+        //            return !type.IsNested;
+        //        }
+        //        return false;
+        //    })
+        //           from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+        //           where method.IsDefined(typeof(ExtensionAttribute), false)
+        //           where method.Name == name
+        //           select method;
+        //}
     }
 }
 

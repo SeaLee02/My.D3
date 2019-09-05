@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using My.D3.Entity.Demo;
 using My.D3.Entity.Demo.Dto;
+using My.D3.Entity.Demo.View;
 
 namespace My.D3.Configurations
 {
@@ -19,6 +20,9 @@ namespace My.D3.Configurations
             //CreateMap<DateTime, string>().ConvertUsing<DateTimeTypeConverter>();
             //实体和Dto的相互转化
             CreateMap<DemoStudentEntity, DemoStudentDto>().ReverseMap();
+            CreateMap<ViewDemoStudent, ViewDemoStudentDto>().ReverseMap();
+
+
         }
 
 

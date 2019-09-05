@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 
 namespace My.D3.Areas.Api.Controllers
 {
@@ -28,6 +29,7 @@ namespace My.D3.Areas.Api.Controllers
     {
         private readonly IDemoStudentAppService _demoStudentAppService;
         private readonly MyDbContext _db;
+        private readonly IMapper _mapper;
 
         public TestController(IDemoStudentAppService demoStudentAppService, MyDbContext db)
         {

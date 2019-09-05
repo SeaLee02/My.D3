@@ -19,8 +19,9 @@
             IEnumerable<IMutableEntityType> entityTypes = modelBuilder.Model.GetEntityTypes();
             foreach (IMutableEntityType entityType in entityTypes)
             {
+                //初始化过滤器
                 DbFilterConfiguration.InitGobalFilter(entityType, modelBuilder);
-
+                //ViewConfiguration.InitViews(entityType); // 初始化视图
             }
         }
 

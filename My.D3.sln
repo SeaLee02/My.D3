@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "My.D3.Application.Test", "test\My.D3.Application.Test\My.D3.Application.Test.csproj", "{619089B7-17AE-45A7-A970-93C8A2D9105E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "test\XUnitTestProject1\XUnitTestProject1.csproj", "{E9573495-FCB8-46F3-BE71-DA416CAEF8B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject1", "test\XUnitTestProject1\XUnitTestProject1.csproj", "{E9573495-FCB8-46F3-BE71-DA416CAEF8B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridData.Core", "src\GridData.Core\GridData.Core.csproj", "{4BEA4A37-408D-4863-9262-27CE203174AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{E9573495-FCB8-46F3-BE71-DA416CAEF8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9573495-FCB8-46F3-BE71-DA416CAEF8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9573495-FCB8-46F3-BE71-DA416CAEF8B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BEA4A37-408D-4863-9262-27CE203174AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BEA4A37-408D-4863-9262-27CE203174AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BEA4A37-408D-4863-9262-27CE203174AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BEA4A37-408D-4863-9262-27CE203174AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

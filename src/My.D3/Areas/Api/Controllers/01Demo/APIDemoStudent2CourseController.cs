@@ -21,7 +21,7 @@
     [ApiController]
     public class APIDemoStudent2CourseController : ControllerBase
     {
-       private readonly IDemoStudent2CourseAppService _demoStudent2CourseAppService;
+        private readonly IDemoStudent2CourseAppService _demoStudent2CourseAppService;
 
         /// <summary>
         /// 构造函数
@@ -62,11 +62,11 @@
         /// <param name="pagedInputDto">分页输入的Dto</param>
         /// <returns>分页信息</returns>
         [HttpPost("GetViewPage")]
-        public async Task<MyPagedResult<ViewDemoStudent2Course>> GetViewPage(PagedInputDto pagedInputDto)
-        {
-            var pagedResult = await this._demoStudent2CourseAppService.GetViewPage(pagedInputDto);
-            return pagedResult;
-        }
+        //public async Task<MyPagedResult<ViewDemoStudent2Course>> GetViewPage(PagedInputDto pagedInputDto)
+        //{
+        //    var pagedResult = await this._demoStudent2CourseAppService.GetViewPage(pagedInputDto);
+        //    return pagedResult;
+        //}
 
         /// <summary>
         /// 获取  [应用系统表] 分页的信息

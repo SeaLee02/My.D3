@@ -21,7 +21,7 @@
     [ApiController]
     public class APIDemoSchoolController : ControllerBase
     {
-       private readonly IDemoSchoolAppService _demoSchoolAppService;
+        private readonly IDemoSchoolAppService _demoSchoolAppService;
 
         /// <summary>
         /// 构造函数
