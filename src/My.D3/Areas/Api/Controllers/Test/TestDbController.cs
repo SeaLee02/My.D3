@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -40,9 +41,15 @@ namespace My.D3.Areas.Api.Controllers
         [HttpGet("Test")]
         public async Task<List<DemoStudentDto>> Test()
         {
-            var qwe = _db.Query<ViewDemoSchool>().FirstOrDefault();
-            var dd22 = _db.Query<ViewDemoStudent>().FirstOrDefault();
-            DbSet<DemoStudentEntity> dd = _db.Set<DemoStudentEntity>();
+            string str = "(StuName==@0   ) ";
+            var query = _db.ViewDemoStudent.AsNoTracking();
+            var dfd = query.Where(str, "sealee");
+            //var dd = DynamicQueryable.Where<ViewDemoStudent>(query, str, "sealee");
+
+
+            //var qwe = _db.Query<ViewDemoSchool>().FirstOrDefault();
+            //var dd22 = _db.Query<ViewDemoStudent>().FirstOrDefault();
+            //DbSet<DemoStudentEntity> dd = _db.Set<DemoStudentEntity>();
 
             var list = await this._demoStudentAppService.GetAllListDto();
             string aa = "";

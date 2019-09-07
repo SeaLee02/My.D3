@@ -116,7 +116,8 @@ namespace GridData.Core
                 }
                 list.Add(item2);
             }
-            return "(" + string.Join(" " + InnerType + " ", list) + "  ) {0}";
+            return string.Join(" " + InnerType + " ", list) + " {0}";
+            //return "(" + string.Join(" " + InnerType + " ", list) + "  ) {0}";
         }
     }
 }

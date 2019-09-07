@@ -20,7 +20,7 @@ $.fn.serializeJson = function () {
 jQuery.li = {
     //拼接查询语句
     getFilters: function () {
-        var advDiv = $("#searchform");
+        var advDiv = $("#mySearchForm");
         var allInput = $("[data-op]", advDiv);
         var filters = [];
         for (var i = 0; i < allInput.length; i++) {
@@ -38,7 +38,7 @@ jQuery.li = {
                 if (!isRepeat) {
 
                     var op = item.data("op");
-                    console.log(op);
+                    //console.log(op);
                     if (!op) {
                         op = "like";
                     }
