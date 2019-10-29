@@ -17,7 +17,7 @@
     string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
     MyConfig myConfig=StringUtil.GetConfig (solutionsPath+"_commonfile\\T4Helper.json");
     myConfig.IsOverrideFile=true;
-    myConfig.TableName="Demo_";
+    myConfig.TableName="Demo_School";
     myConfig.NameSpace="My.D3.Areas.Admin.Controllers";
     myConfig.Version="Demo";
     List<DbTable> tableInfos=DbUtil.GetDbTables(myConfig.ConnectionString,myConfig.TableName).Where(x=>x.HasPrimaryKey==true).ToList();

@@ -8,7 +8,7 @@
     <script>
         'use staic'
         layui.use(['table', 'form', 'element', 'laydate'], function () {
-            var table = layui.table, form = layui.form, element = layui.element, laydate = layui.laydate;
+            let [table, form, element, laydate, $] = [layui.table, layui.form, layui.element, layui.laydate, layui.jquery];
             //展示已知数据
             table.render({
                 elem: '#table'
@@ -123,6 +123,29 @@
                 }]
             });
 
+                 //查询事件
+            window.searchform = function (e) {
+                var filter = $.li.getFilters();
+                if (myInitFilter && myInitFilter.conditions) {
+                    if (filter) {
+                        filter.conditions = _.union(filter.conditions, myInitFilter.conditions);
+                    } else {
+                        filter = myInitFilter;
+                    }
+                }
+                if (filter) {
+                    tableWhere.Filter = JSON.stringify(filter);
+                } else {
+                    tableWhere.Filter = null;
+                }
+                table.reload('table', { where: tableWhere, page: { curr: 1 } });
+                layui.stope(e);
+            };
+            //清空事件
+            window.emptyform = function (e) {
+                $('#mySearchForm')[0].reset();  //form('clear');
+                layui.stope(e);
+            };
         });
     </script>
 }
@@ -131,7 +154,19 @@
         <div class="layui-card-body">
             <div class="layui-collapse" lay-accordion style="margin-bottom:10px;">
                 <div class="layui-colla-item" style="position:relative;">
-                    <h2 class="layui-colla-title">查找</h2>
+                    <h2 class="layui-colla-title" style="position:relative;">
+                        查找
+                        <label style="position:absolute;top:0px;right:50px;z-index:999;">
+                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="searchform(event)">
+                                <i class="layui-icon layui-icon-search"></i>
+                                查询(enter)
+                            </a>
+                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="emptyform(event)">
+                                <i class="layui-icon layui-icon-return"></i>
+                                清空(esc)
+                            </a>
+                        </label>
+                    </h2>
                     <div class="layui-colla-content layui-show">
                         <form class="layui-form" id="mySearchForm" onsubmit="return false">
                             <div class="layui-form-item">
@@ -175,16 +210,6 @@
                                 </div>
                             </div>
                         </form>
-                        <div style="position:absolute;right:20px; bottom:10px;">
-                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="searchform()">
-                                <i class="layui-icon layui-icon-search"></i>
-                                查询(enter)
-                            </a>
-                            <a href="javascript:void(0)" class="layui-btn layui-btn-sm" onclick="$('#mySearchForm').form('clear')">
-                                <i class="layui-icon layui-icon-return"></i>
-                                清空(esc)
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
