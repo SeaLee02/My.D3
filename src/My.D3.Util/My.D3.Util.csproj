@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-	<RestoreSources>MyPackage</RestoreSources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +20,7 @@
     <PackageReference Include="MyNuget.Demo" Version="1.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.7" />
+    <PackageReference Include="Z.Expressions.Eval" Version="3.0.6" />
   </ItemGroup>
 
   <ItemGroup>

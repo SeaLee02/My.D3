@@ -14,6 +14,7 @@
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
+    using Z.Expressions;
 
     /// <summary>
     /// 数据接口
@@ -35,6 +36,11 @@
         /// <returns>grid</returns>
         Task<string> GetGridList(GetGridListInDto inDto);
 
+        /// <summary>
+        /// Linq字符串查询
+        /// </summary>
+        /// <returns></returns>
+        Task<string> GetTest();
     }
 
     /// <summary>
@@ -168,6 +174,22 @@
                 ContractResolver = new CamelCasePropertyNamesContractResolver() //json中属性开头字母小写的驼峰命名
             };
             return JsonConvert.SerializeObject(gridResult, settings);
+        }
+
+        /// <summary>
+        /// Linq字符串查询
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetTest()
+        {
+            MyDbContext db = this._dbContextProvider.GetDbContext();
+            string name = "sealee";
+            var views = "db.DemoStudent.Where(x => x.StuName ==name).ToList()".Execute<dynamic>(new { db, name });
+
+            string aa = "";
+
+
+            return await Task.FromResult("ok");
         }
     }
 }

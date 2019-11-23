@@ -81,5 +81,17 @@
             var result = await this._dataGridAppService.GetGridMapperList(inDto);
             return await Task.FromResult(result);
         }
+
+        /// <summary>
+        /// Linq字符串查询
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<string> GetTest()
+        {
+            var result = await this._dataGridAppService.GetTest();
+            return await Task.FromResult(result);
+        }
     }
 }
